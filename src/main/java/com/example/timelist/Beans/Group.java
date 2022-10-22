@@ -1,17 +1,18 @@
 package com.example.timelist.Beans;
 
-import java.util.ArrayList;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import java.util.List;
 
 public class Group {
 
 
-
-
     private String groupId;
-    private   String name ;
-    private List<String> studentId ;
 
+    @NotBlank
+    @Size(min = 1, max = 20)
+    private String name;
+    private List<String> studentId;
 
 
     public String getGroupId() {
@@ -38,7 +39,7 @@ public class Group {
         this.studentId = studentId;
     }
 
-    public void addStudent(Student student){
+    public void addStudent(Student student) {
         getStudentId().add(student.getId());
 
     }
