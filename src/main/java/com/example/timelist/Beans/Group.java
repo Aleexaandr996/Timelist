@@ -10,7 +10,7 @@ public class Group {
     private String groupId;
 
     @NotBlank
-    @Size(min = 1, max = 20)
+    @Size(min = 1, max = 15)
     private String name;
     private List<String> studentId;
 

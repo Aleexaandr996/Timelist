@@ -1,12 +1,24 @@
 package com.example.timelist.Beans;
 
+import javax.validation.constraints.Future;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 
 public class LectureResponse {
     private  int id;
+
+    @NotBlank
+    @Size(min = 1, max = 15)
     private  String name;
+    @NotBlank
+    @Size(min = 1, max = 15)
     private String lecturer;
+    @NotBlank
+    @Size(min = 1, max = 5)
     private String room;
+    @NotBlank
+    @Future
     private LocalDateTime time;
 
     public int getId() {

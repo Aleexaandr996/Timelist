@@ -1,5 +1,8 @@
 package com.example.timelist.Beans;
 
+import javax.validation.constraints.Future;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -8,20 +11,22 @@ import java.util.List;
 public class Leсture {
 
 
-    public String getId() {
-        return id;
-    }
 
-    public void setId(String id) {
-        this.id = id;
-    }
 
     private String id ;
+    @NotBlank
+    @Size(min = 1, max = 35)
     private String name ;
 
     private List<String> groupIds;
+    @NotBlank
+    @Size(min = 1, max = 15)
     private String lectorName;
+    @NotBlank
+    @Size(min = 1, max = 5)
     private String room ;
+    @NotBlank
+    @Future
     private LocalDateTime dateTime ;
 
     public LocalDateTime getDateTime() {
@@ -31,7 +36,13 @@ public class Leсture {
     public void setDateTime(LocalDateTime dateTime) {
         this.dateTime = dateTime;
     }
+    public String getId() {
+        return id;
+    }
 
+    public void setId(String id) {
+        this.id = id;
+    }
 
 
 
