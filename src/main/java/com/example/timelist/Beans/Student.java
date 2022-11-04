@@ -1,17 +1,18 @@
 package com.example.timelist.Beans;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 
 public class Student {
     private String id;
     @NotBlank
     @Size(min = 1, max = 15)
     private String name ;
-    @NotBlank
-    @Size(min = 2, max = 2 )
+    @NotNull
+    @Positive
+    @Min(14)
+    @Max(99)
     private int age;
-    private int groupId;
+
 
     public String getId() {
         return id;
@@ -37,11 +38,5 @@ public class Student {
         this.age = age;
     }
 
-    public int getGroupId() {
-        return groupId;
-    }
 
-    public void setGroupId(int groupId) {
-        this.groupId = groupId;
-    }
 }

@@ -2,6 +2,7 @@ package com.example.timelist.Beans;
 
 import javax.validation.constraints.Future;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 
@@ -14,10 +15,10 @@ public class LectureResponse {
     @NotBlank
     @Size(min = 1, max = 15)
     private String lecturer;
-    @NotBlank
+    @NotNull
     @Size(min = 1, max = 5)
     private String room;
-    @NotBlank
+    @NotNull
     @Future
     private LocalDateTime time;
 

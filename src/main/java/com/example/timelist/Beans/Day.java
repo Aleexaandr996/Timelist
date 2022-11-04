@@ -2,6 +2,7 @@ package com.example.timelist.Beans;
 
 import javax.validation.constraints.Future;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -11,7 +12,7 @@ public class Day {
 
 
     private String id;
-    @NotBlank
+    @NotNull
     @Future
     private LocalDate date;
     private List<String> timeListDay;

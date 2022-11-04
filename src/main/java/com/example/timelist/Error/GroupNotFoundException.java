@@ -1,4 +1,4 @@
-package com.example.timelist.Controller;
+package com.example.timelist.Error;
 
 public class GroupNotFoundException extends RuntimeException {
 }

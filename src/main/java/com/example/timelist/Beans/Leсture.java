@@ -2,6 +2,7 @@ package com.example.timelist.Beans;
 
 import javax.validation.constraints.Future;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -22,7 +23,7 @@ public class Leсture {
     @NotBlank
     @Size(min = 1, max = 15)
     private String lectorName;
-    @NotBlank
+    @NotNull
     @Size(min = 1, max = 5)
     private String room ;
     @NotBlank

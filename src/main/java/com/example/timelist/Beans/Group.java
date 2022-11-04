@@ -1,6 +1,7 @@
 package com.example.timelist.Beans;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.util.List;
 
@@ -9,8 +10,10 @@ public class Group {
 
     private String groupId;
 
+    @Pattern("(\d{2})\-(\W{2})")
+    @Pattern(pattern = "(\d ={2})(\Q-\E)(\W{2})")
     @NotBlank
-    @Size(min = 1, max = 15)
+    @Size(min = 5,max = 5)
     private String name;
     private List<String> studentId;
 

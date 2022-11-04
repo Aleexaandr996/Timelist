@@ -1,6 +1,6 @@
 package com.example.timelist.Beans;
 
-import com.example.timelist.Controller.GroupNotFoundException;
+import com.example.timelist.Error.GroupNotFoundException;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
