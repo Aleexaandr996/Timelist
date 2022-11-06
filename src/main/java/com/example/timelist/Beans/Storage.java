@@ -1,6 +1,8 @@
 package com.example.timelist.Beans;
 
+import com.example.timelist.Error.GroupDuplicateException;
 import com.example.timelist.Error.GroupNotFoundException;
+import com.example.timelist.Error.GroupSizeStudentException;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -71,6 +73,21 @@ public class Storage {
         return null;
     }
 
+    public void sizeStudentInGroup (Group group){
+        if (group.getStudentId().size() > 20 ){
+            throw new GroupSizeStudentException();
+        }
+    }
+
+    public void findDuplicateStudent (Student student, Group group){
+
+        for (int i = 0; i < group.getStudentId().size(); i++ ){
+           if( group.getStudentId(i).equals(student.getId())){
+               throw new GroupSizeStudentException();
+           }
+        }
+    }
+
     public Leсture deleteLeсture(Leсture leсture) {
         for (int i = 0; i < getLectures().size(); i++) {
             if (lectures.get(i).getId().equals(leсture.getId())) {
@@ -103,7 +120,7 @@ public class Storage {
         for (int i = 0; i < getStudents().size(); i++) {
             if (students.get(i).getId().equals(student.getId())) {
                 students.set(i, student);
-                ;
+
             }
         }
         return null;
@@ -127,6 +144,15 @@ public class Storage {
             }
         }
         throw new GroupNotFoundException();
+    }
+
+    public void findDuplicateGroup(Group group) {
+        for (int i = 0; i < getGroups().size(); i++) {
+            if (groups.get(i).getName().equals(group.getName())) {
+              throw new GroupDuplicateException();
+            }
+        }
+
     }
 
     public Group deleteGroup(Group group) {
