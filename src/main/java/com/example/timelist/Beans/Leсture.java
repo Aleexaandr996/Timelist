@@ -5,19 +5,14 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 
 public class Leсture {
-
-
-
-
-    private String id ;
+    private String id;
     @NotBlank
     @Size(min = 1, max = 35)
-    private String name ;
+    private String name;
 
     private List<String> groupIds;
     @NotBlank
@@ -25,10 +20,10 @@ public class Leсture {
     private String lectorName;
     @NotNull
     @Size(min = 1, max = 5)
-    private String room ;
+    private String room;
     @NotBlank
     @Future
-    private LocalDateTime dateTime ;
+    private LocalDateTime dateTime;
 
     public LocalDateTime getDateTime() {
         return dateTime;
@@ -37,6 +32,7 @@ public class Leсture {
     public void setDateTime(LocalDateTime dateTime) {
         this.dateTime = dateTime;
     }
+
     public String getId() {
         return id;
     }
@@ -44,10 +40,6 @@ public class Leсture {
     public void setId(String id) {
         this.id = id;
     }
-
-
-
-
 
 
     public String getName() {
@@ -82,8 +74,6 @@ public class Leсture {
     public void setRoom(String room) {
         this.room = room;
     }
-
-
 
 
 }

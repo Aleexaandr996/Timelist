@@ -82,7 +82,7 @@ public class Storage {
     public void findDuplicateStudent (Student student, Group group){
 
         for (int i = 0; i < group.getStudentId().size(); i++ ){
-           if( group.getStudentId(i).equals(student.getId())){
+           if( group.getStudentId().get(i).equals(student.getId())){
                throw new GroupSizeStudentException();
            }
         }
