@@ -1,8 +1,6 @@
 package com.example.timelist.Beans;
 
-import com.example.timelist.Error.GroupDuplicateException;
-import com.example.timelist.Error.GroupNotFoundException;
-import com.example.timelist.Error.GroupSizeStudentException;
+import com.example.timelist.Error.*;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -58,8 +56,15 @@ public class Storage {
                 k--;
             }
 
+            checkStudentDuplicateInGroup(students.get(j), groups.get(k));
             groups.get(k).getStudentId().add(students.get(j).getId());
 
+        }
+    }
+
+    public void checkStudentDuplicateInGroup(Student student, Group group){
+        for (int i = 0; i < group.getStudentId().size(); i++){
+            student.getId().equals(group.getStudentId().get(i));
         }
     }
 
@@ -95,6 +100,16 @@ public class Storage {
             }
         }
         return null;
+    }
+
+    public void checkRoom (Leсture leсture){
+        for (int i = 0; i < lectures.size(); i++){
+            if(lectures.get(i).getRoom() == leсture.getRoom() ){
+               if(lectures.get(i).getDateTime().compareTo(leсture.getDateTime())==0){
+                   throw new LectureRoomException();
+                }
+            }
+        }
     }
 
     public Day updateDay(Day day) {
@@ -135,6 +150,27 @@ public class Storage {
         return null;
     }
 
+    public void checkStDuplicateEx(Student student){
+        for (int i = 0; i < students.size(); i++){
+            if (students.get(i).getId().equals(student.getId())) {
+                if (students.get(i).getName().equals(student.getName())) {
+                    if (students.get(i).getAge() == (student.getAge())) {
+                        throw new StudentDuplicateException();
+                    }
+                }
+            }
+        }
+    }
+
+    public void checkStMoreGroup(Student student){
+        for (int i = 0; i < groups.size(); i++){
+            for (int j = 0; j < groups.get(i).getStudentId().size(); j++){
+                if (groups.get(i).getStudentId().get(j).equals(student.getId())){
+                    throw new StudentInGroupException();
+                }
+            }
+        }
+    }
 
     public void updateGroup(Group group) {
         for (int i = 0; i < getGroups().size(); i++) {

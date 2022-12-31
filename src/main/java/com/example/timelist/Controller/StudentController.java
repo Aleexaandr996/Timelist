@@ -18,7 +18,7 @@ public class StudentController {
     @PostMapping("/students")
     public Student create(@RequestBody Student student){
         student.setId(UUID.randomUUID().toString());
-
+        storage.checkStDuplicateEx(student);
         storage.getStudents().add(student);
         return student;
     }
