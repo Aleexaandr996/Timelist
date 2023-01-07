@@ -33,6 +33,7 @@ public class LectureController {
     @PutMapping("/lectures/{id}")
     public void update(@RequestBody Leсture leсture, @PathVariable("id") String lectureId){
         leсture.setId(lectureId);
+        storage.checkRoom(leсture);
         storage.updateLeсture(leсture);
     }
     @DeleteMapping("/lectures")
