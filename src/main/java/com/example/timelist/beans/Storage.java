@@ -1,6 +1,6 @@
-package com.example.timelist.Beans;
+package com.example.timelist.beans;
 
-import com.example.timelist.Error.*;
+import com.example.timelist.error.*;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;

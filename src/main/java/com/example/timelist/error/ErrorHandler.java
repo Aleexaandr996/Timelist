@@ -1,4 +1,4 @@
-package com.example.timelist.Error;
+package com.example.timelist.error;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;

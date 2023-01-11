@@ -1,4 +1,4 @@
-package com.example.timelist.Beans;
+package com.example.timelist.beans;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -6,24 +6,26 @@ import lombok.ToString;
 
 import javax.validation.constraints.*;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @Setter
 @ToString
-public class LectureResponse {
-    private  int id;
+public class Leсture {
+    private String id;
+    @NotBlank
+    @Size(min = 1, max = 25)
+    private String name;
 
+    private List<String> groupIds;
     @NotBlank
     @Size(min = 1, max = 15)
-    private  String name;
-    @NotBlank
-    @Size(min = 1, max = 15)
-    private String lecturer;
+    private String lectorName;
     @Pattern(regexp = "d{1,3}")
     private String room;
-    @NotNull
+    @NotBlank
     @Future
-    private LocalDateTime time;
+    private LocalDateTime dateTime;
 
 
 }

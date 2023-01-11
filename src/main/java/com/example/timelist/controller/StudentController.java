@@ -1,11 +1,10 @@
-package com.example.timelist.Controller;
+package com.example.timelist.controller;
 
-import com.example.timelist.Beans.Storage;
-import com.example.timelist.Beans.Student;
+import com.example.timelist.beans.Storage;
+import com.example.timelist.beans.Student;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 

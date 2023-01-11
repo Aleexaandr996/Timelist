@@ -1,9 +1,7 @@
-package com.example.timelist.Controller;
+package com.example.timelist.controller;
 
-import com.example.timelist.Beans.Day;
-import com.example.timelist.Beans.Group;
-import com.example.timelist.Beans.Storage;
-import com.example.timelist.Beans.Student;
+import com.example.timelist.beans.Day;
+import com.example.timelist.beans.Storage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

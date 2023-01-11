@@ -1,4 +1,4 @@
-package com.example.timelist.Beans;
+package com.example.timelist.beans;
 
 import lombok.Getter;
 import lombok.Setter;

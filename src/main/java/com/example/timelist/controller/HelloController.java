@@ -1,4 +1,4 @@
-package com.example.timelist.Controller;
+package com.example.timelist.controller;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
