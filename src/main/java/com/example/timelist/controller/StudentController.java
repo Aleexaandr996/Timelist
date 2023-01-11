@@ -5,6 +5,7 @@ import com.example.timelist.beans.Student;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.UUID;
 
@@ -15,7 +16,7 @@ public class StudentController {
     private Storage storage;
 
     @PostMapping("/students")
-    public Student create(@RequestBody Student student){
+    public Student create(@RequestBody @Valid Student student){
         student.setId(UUID.randomUUID().toString());
         storage.checkStDuplicateEx(student);
         storage.getStudents().add(student);
@@ -28,7 +29,7 @@ public class StudentController {
     }
 
     @PutMapping("/students")
-    public Student update(@RequestBody Student student){
+    public Student update(@RequestBody @Valid Student student){
 
         storage.updateStudent(student);
         return student;

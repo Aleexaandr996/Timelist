@@ -5,6 +5,7 @@ import com.example.timelist.beans.Storage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.UUID;
 
@@ -15,7 +16,7 @@ public class DayController {
     private Storage storage;
 
     @PostMapping("/days")
-    public void create(@RequestBody Day day){
+    public void create(@RequestBody @Valid Day day){
        day.setId(UUID.randomUUID().toString());
         storage.getDays().add(day);
         storage.addLectureInDay(day);
@@ -27,7 +28,7 @@ public class DayController {
     }
 
     @PutMapping("/{id}")
-    public Day update(@RequestBody Day day, @PathVariable("id") String dayId){
+    public Day update(@RequestBody @Valid Day day, @PathVariable("id") String dayId){
         day.setId(dayId);
         storage.updateDay(day);
         return day;

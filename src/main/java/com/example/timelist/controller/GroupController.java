@@ -29,7 +29,7 @@ public class GroupController {
     }
 
     @PutMapping("/groups/{id}")
-    public void update(@RequestBody Group group, @PathVariable("id") String groupId){
+    public void update(@RequestBody @Valid Group group, @PathVariable("id") String groupId){
         group.setGroupId(groupId);
         storage.updateGroup(group);
     }
