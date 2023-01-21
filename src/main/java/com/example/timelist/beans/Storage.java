@@ -16,7 +16,7 @@ public class Storage {
     private final List<Day> days = new ArrayList<>();
     private final List<Student> students = new ArrayList<>();
     private final List<Group> groups = new ArrayList<>();
-    private final List<Leсture> lectures = new ArrayList<>();
+    private final List<Lecture> lectures = new ArrayList<>();
 
 
     public List<Student> getStudents() {
@@ -27,16 +27,16 @@ public class Storage {
         return groups;
     }
 
-    public List<Leсture> getLectures() {
+    public List<Lecture> getLectures() {
         return lectures;
     }
 
 
     public void addLectureInDay(Day day) {
         List lectureInDay = new ArrayList();
-        for (Leсture leсture : lectures) {
-            if (day.getDate() == leсture.getDateTime().toLocalDate()) {
-                day.getTimeListDay().add(leсture.getId());
+        for (Lecture lecture : lectures) {
+            if (day.getDate() == lecture.getDateTime().toLocalDate()) {
+                day.getTimeListDay().add(lecture.getId());
             }
         }
     }
@@ -68,10 +68,10 @@ public class Storage {
         }
     }
 
-    public Leсture updateLeсture(Leсture leсture) {
+    public Lecture updateLeсture(Lecture lecture) {
         for (int i = 0; i < getDays().size(); i++) {
-            if (lectures.get(i).getId().equals(leсture.getId())) {
-                lectures.set(i, leсture);
+            if (lectures.get(i).getId().equals(lecture.getId())) {
+                lectures.set(i, lecture);
                 ;
             }
         }
@@ -93,19 +93,19 @@ public class Storage {
         }
     }
 
-    public Leсture deleteLeсture(Leсture leсture) {
+    public Lecture deleteLeсture(Lecture lecture) {
         for (int i = 0; i < getLectures().size(); i++) {
-            if (lectures.get(i).getId().equals(leсture.getId())) {
+            if (lectures.get(i).getId().equals(lecture.getId())) {
                 lectures.remove(lectures.get(i));
             }
         }
         return null;
     }
 
-    public void checkRoom (Leсture leсture){
+    public void checkRoom (Lecture lecture){
         for (int i = 0; i < lectures.size(); i++){
-            if(lectures.get(i).getRoom() == leсture.getRoom() ){
-               if(lectures.get(i).getDateTime().compareTo(leсture.getDateTime())==0){
+            if(lectures.get(i).getRoom() == lecture.getRoom() ){
+               if(lectures.get(i).getDateTime().compareTo(lecture.getDateTime())==0){
                    throw new LectureRoomException();
                 }
             }

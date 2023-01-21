@@ -2,6 +2,7 @@ package com.example.timelist.controller;
 
 import com.example.timelist.beans.Storage;
 import com.example.timelist.beans.Student;
+import com.example.timelist.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,36 +15,26 @@ public class StudentController {
 
     @Autowired
     private Storage storage;
+    private StudentService studentService;
 
     @PostMapping("/students")
     public Student create(@RequestBody @Valid Student student){
-        student.setId(UUID.randomUUID().toString());
-        storage.checkStDuplicateEx(student);
-        storage.getStudents().add(student);
-        return student;
+        return studentService.addStudent(student);
     }
 
     @GetMapping("/students")
     public List<Student> getStudents(){
-        return storage.getStudents();
+        return studentService.getStudents();
     }
 
     @PutMapping("/students")
     public Student update(@RequestBody @Valid Student student){
-
-        storage.updateStudent(student);
-        return student;
+        return studentService.updateStudent(student);
     }
     @DeleteMapping("/students")
     public void delete(@RequestBody Student student){
-        storage.deleteStudent(student);
+        studentService.deleteStudent(student);
     }
-
-
-
-
-
-
 
 
 }

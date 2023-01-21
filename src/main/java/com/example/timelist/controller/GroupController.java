@@ -2,6 +2,7 @@ package com.example.timelist.controller;
 
 import com.example.timelist.beans.Group;
 import com.example.timelist.beans.Storage;
+import com.example.timelist.service.GroupService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,27 +16,26 @@ public class GroupController {
 
     @Autowired
     private Storage storage;
+    private GroupService groupService;
 
 
     @PostMapping("/groups")
     public void create(@RequestBody @Valid Group group){
-        group.setGroupId(UUID.randomUUID().toString());
-        storage.getGroups().add(group);
+       groupService.add(group);
     }
 
     @GetMapping("/groups")
     public List<Group> getGroups(){
-        return storage.getGroups();
+        return groupService.getGroups();
     }
 
     @PutMapping("/groups/{id}")
     public void update(@RequestBody @Valid Group group, @PathVariable("id") String groupId){
-        group.setGroupId(groupId);
-        storage.updateGroup(group);
+        groupService.updateGroup(group,groupId);
     }
     @DeleteMapping("/groups")
     public void delete(@RequestBody Group group){
-        storage.deleteGroup(group);
+        groupService.deleteGroup(group);
     }
 
 

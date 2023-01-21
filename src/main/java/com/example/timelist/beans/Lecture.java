@@ -11,7 +11,7 @@ import java.util.List;
 @Getter
 @Setter
 @ToString
-public class Leсture {
+public class Lecture {
     private String id;
     @NotBlank
     @Size(min = 1, max = 25)

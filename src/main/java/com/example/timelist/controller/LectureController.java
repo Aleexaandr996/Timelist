@@ -1,7 +1,8 @@
 package com.example.timelist.controller;
 
-import com.example.timelist.beans.Leсture;
+import com.example.timelist.beans.Lecture;
 import com.example.timelist.beans.Storage;
+import com.example.timelist.service.LectureService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,29 +15,25 @@ public class LectureController {
 
     @Autowired
     private Storage storage;
+    private LectureService lectureService;
 
     @PostMapping("/lectures")
-    public Leсture create(@RequestBody @Valid Leсture lecture) {
-
-        lecture.setId(UUID.randomUUID().toString());
-        storage.getLectures().add(lecture);
-        return lecture;
+    public Lecture create(@RequestBody @Valid Lecture lecture) {
+        return lectureService.addLecture(lecture);
     }
 
     @GetMapping("/lectures")
-    public List<Leсture> getLectures(){
-        return storage.getLectures();
+    public List<Lecture> getLectures(){
+        return lectureService.getLectures();
     }
 
     @PutMapping("/lectures/{id}")
-    public void update(@RequestBody @Valid Leсture leсture, @PathVariable("id") String lectureId){
-        leсture.setId(lectureId);
-        storage.checkRoom(leсture);
-        storage.updateLeсture(leсture);
+    public void update(@RequestBody @Valid Lecture lecture, @PathVariable("id") String lectureId){
+       lectureService.updateLecture(lecture, lectureId);
     }
     @DeleteMapping("/lectures")
-    public void delete(@RequestBody Leсture leсture){
-        storage.deleteLeсture(leсture);
+    public void delete(@RequestBody Lecture lecture){
+        lectureService.deleteLecture(lecture);
     }
 
 }

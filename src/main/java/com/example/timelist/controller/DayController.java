@@ -2,39 +2,36 @@ package com.example.timelist.controller;
 
 import com.example.timelist.beans.Day;
 import com.example.timelist.beans.Storage;
+import com.example.timelist.service.DayService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
-import java.util.UUID;
 
 @RestController
 public class DayController {
 
     @Autowired
     private Storage storage;
+    private DayService dayService;
 
     @PostMapping("/days")
     public void create(@RequestBody @Valid Day day){
-       day.setId(UUID.randomUUID().toString());
-        storage.getDays().add(day);
-        storage.addLectureInDay(day);
+      dayService.addDay(day);
     }
 
     @GetMapping("/days")
     public List<Day> getDays(){
-        return storage.getDays();
+        return dayService.getDays();
     }
 
     @PutMapping("/{id}")
-    public Day update(@RequestBody @Valid Day day, @PathVariable("id") String dayId){
-        day.setId(dayId);
-        storage.updateDay(day);
-        return day;
+    public @Valid Day update(@RequestBody @Valid Day day, @PathVariable("id") String dayId){
+        return dayService.updateDay(day,dayId);
     }
     @DeleteMapping("/days")
     public void delete(@RequestBody Day day){
-        storage.deleteDay(day);
+        dayService.deleteDay(day);
     }
 }
