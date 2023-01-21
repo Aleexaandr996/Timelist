@@ -4,13 +4,14 @@ import com.example.timelist.beans.Storage;
 import com.example.timelist.beans.Student;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import javax.validation.Valid;
 import java.util.List;
 import java.util.UUID;
 
-@Component
+@Service
 @RequiredArgsConstructor
 public class StudentService {
     private final Storage storage;

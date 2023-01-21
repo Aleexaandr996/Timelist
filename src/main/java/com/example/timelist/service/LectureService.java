@@ -4,11 +4,12 @@ import com.example.timelist.beans.Lecture;
 import com.example.timelist.beans.Storage;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
 
-@Component
+@Service
 @RequiredArgsConstructor
 public class LectureService {
     private final Storage storage;

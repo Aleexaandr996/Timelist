@@ -36,5 +36,4 @@ public class StudentController {
         studentService.deleteStudent(student);
     }
 
-
 }
