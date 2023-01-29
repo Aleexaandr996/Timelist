@@ -1,27 +1,29 @@
 package com.example.timelist.controller;
 
 import com.example.timelist.beans.Group;
-import com.example.timelist.beans.Storage;
+import com.example.timelist.persistence.InMemoryStorage;
 import com.example.timelist.service.GroupService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
-import java.util.UUID;
 
 @RestController
+@RequiredArgsConstructor
 public class GroupController {
 
 
-    @Autowired
-    private Storage storage;
-    private GroupService groupService;
+
+    private final InMemoryStorage storage;
+    private final GroupService groupService;
+
 
 
     @PostMapping("/groups")
     public void create(@RequestBody @Valid Group group){
-       groupService.add(group);
+       groupService.addGroup(group);
     }
 
     @GetMapping("/groups")

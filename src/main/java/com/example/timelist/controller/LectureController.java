@@ -1,20 +1,19 @@
 package com.example.timelist.controller;
 
 import com.example.timelist.beans.Lecture;
-import com.example.timelist.beans.Storage;
+import com.example.timelist.persistence.InMemoryStorage;
 import com.example.timelist.service.LectureService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
-import java.util.UUID;
 
 @RestController
 public class LectureController {
 
     @Autowired
-    private Storage storage;
+    private InMemoryStorage storage;
     private LectureService lectureService;
 
     @PostMapping("/lectures")

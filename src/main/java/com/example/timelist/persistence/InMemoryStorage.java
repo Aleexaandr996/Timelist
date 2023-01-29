@@ -1,5 +1,9 @@
-package com.example.timelist.beans;
+package com.example.timelist.persistence;
 
+import com.example.timelist.beans.Day;
+import com.example.timelist.beans.Group;
+import com.example.timelist.beans.Lecture;
+import com.example.timelist.beans.Student;
 import com.example.timelist.error.*;
 import org.springframework.stereotype.Component;
 
@@ -7,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
-public class Storage {
+public class InMemoryStorage implements Storage {
 
     public List<Day> getDays() {
         return days;
@@ -21,6 +25,12 @@ public class Storage {
 
     public List<Student> getStudents() {
         return students;
+    }
+
+    @Override
+    public void add(Student student) {
+        checkStDuplicateEx(student);
+        students.add(student);
     }
 
     public List<Group> getGroups() {
@@ -69,6 +79,7 @@ public class Storage {
     }
 
     public Lecture updateLeсture(Lecture lecture) {
+        checkRoom(lecture);
         for (int i = 0; i < getDays().size(); i++) {
             if (lectures.get(i).getId().equals(lecture.getId())) {
                 lectures.set(i, lecture);
@@ -191,14 +202,19 @@ public class Storage {
 
     }
 
-    public Group deleteGroup(Group group) {
+    public void deleteGroup(Group group) {
         for (int i = 0; i < getGroups().size(); i++) {
             if (groups.get(i).getGroupId().equals(group.getGroupId())) {
                 groups.remove(groups.get(i));
             }
         }
-        return null;
+
     }
 
+
+    @Override
+    public void addGroup(Group group) {
+groups.add(group);
+    }
 
 }

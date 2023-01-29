@@ -1,9 +1,8 @@
 package com.example.timelist.service;
 
 import com.example.timelist.beans.Day;
-import com.example.timelist.beans.Storage;
+import com.example.timelist.persistence.InMemoryStorage;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,7 +12,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class DayService {
 
-    private final Storage storage;
+    private final InMemoryStorage storage;
 
     public void addDay(Day day){
         day.setId(UUID.randomUUID().toString());
