@@ -24,6 +24,4 @@ public class LectureResponse {
     @NotNull
     @Future
     private LocalDateTime time;
-
-
 }

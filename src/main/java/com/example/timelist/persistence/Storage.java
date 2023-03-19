@@ -12,7 +12,7 @@ public interface Storage {
 
     public List<Group> getGroups();
 
-    void updateGroup (Group group);
+    void updateGroup (Group group, String groupId);
 
     public void deleteGroup (Group group);
 
@@ -26,12 +26,12 @@ public interface Storage {
 
     public List<Lecture> getLectures();
 
-    public Lecture updateLeсture(Lecture lecture);
+    public Lecture updateLecture(Lecture lecture, String lectureId);
 
-    public Lecture deleteLeсture(Lecture lecture);
+    public Lecture deleteLecture(String id);
 
     public List<Student> getStudents();
     void add(Student student);
-    public Student updateStudent(Student student);
+    public Student updateStudent(Student student, String studentId);
     public Student deleteStudent(Student student);
 }

@@ -20,5 +20,4 @@ public class Day {
     @Future
     private LocalDate date;
     private List<String> timeListDay;
-
 }

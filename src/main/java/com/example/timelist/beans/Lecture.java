@@ -26,6 +26,4 @@ public class Lecture {
     @NotBlank
     @Future
     private LocalDateTime dateTime;
-
-
 }

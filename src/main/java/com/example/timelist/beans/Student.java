@@ -19,5 +19,4 @@ public class Student {
     @Min(14)
     @Max(99)
     private int age;
-
 }

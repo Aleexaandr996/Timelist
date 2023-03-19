@@ -29,7 +29,6 @@ public class InMemoryStorage implements Storage {
 
     @Override
     public void add(Student student) {
-        checkStDuplicateEx(student);
         students.add(student);
     }
 
@@ -74,16 +73,16 @@ public class InMemoryStorage implements Storage {
 
     public void checkStudentDuplicateInGroup(Student student, Group group){
         for (int i = 0; i < group.getStudentId().size(); i++){
-            student.getId().equals(group.getStudentId().get(i));
+            if(student.getId().equals(group.getStudentId().get(i))){
+                throw new StudentDuplicateException();
+            };
         }
     }
 
-    public Lecture updateLeсture(Lecture lecture) {
-        checkRoom(lecture);
+    public Lecture updateLecture(Lecture lecture, String lectureId) {
         for (int i = 0; i < getDays().size(); i++) {
-            if (lectures.get(i).getId().equals(lecture.getId())) {
+            if (lectures.get(i).getId().equals(lectureId)) {
                 lectures.set(i, lecture);
-                ;
             }
         }
         return null;
@@ -104,23 +103,13 @@ public class InMemoryStorage implements Storage {
         }
     }
 
-    public Lecture deleteLeсture(Lecture lecture) {
+    public Lecture deleteLecture(String lectureId) {
         for (int i = 0; i < getLectures().size(); i++) {
-            if (lectures.get(i).getId().equals(lecture.getId())) {
+            if (lectures.get(i).getId().equals(lectureId)) {
                 lectures.remove(lectures.get(i));
             }
         }
         return null;
-    }
-
-    public void checkRoom (Lecture lecture){
-        for (int i = 0; i < lectures.size(); i++){
-            if(lectures.get(i).getRoom() == lecture.getRoom() ){
-               if(lectures.get(i).getDateTime().compareTo(lecture.getDateTime())==0){
-                   throw new LectureRoomException();
-                }
-            }
-        }
     }
 
     public Day updateDay(Day day) {
@@ -142,11 +131,10 @@ public class InMemoryStorage implements Storage {
         return null;
     }
 
-    public Student updateStudent(Student student) {
+    public Student updateStudent(Student student, String studentId) {
         for (int i = 0; i < getStudents().size(); i++) {
-            if (students.get(i).getId().equals(student.getId())) {
+            if (students.get(i).getId().equals(studentId)) {
                 students.set(i, student);
-
             }
         }
         return null;
@@ -161,45 +149,24 @@ public class InMemoryStorage implements Storage {
         return null;
     }
 
-    public void checkStDuplicateEx(Student student){
-        for (int i = 0; i < students.size(); i++){
-            if (students.get(i).getId().equals(student.getId())) {
-                if (students.get(i).getName().equals(student.getName())) {
-                    if (students.get(i).getAge() == (student.getAge())) {
-                        throw new StudentDuplicateException();
-                    }
-                }
-            }
-        }
-    }
-
     public void checkStMoreGroup(Student student){
-        for (int i = 0; i < groups.size(); i++){
-            for (int j = 0; j < groups.get(i).getStudentId().size(); j++){
-                if (groups.get(i).getStudentId().get(j).equals(student.getId())){
+        for (Group group : groups) {
+            for (int j = 0; j < group.getStudentId().size(); j++) {
+                if (group.getStudentId().get(j).equals(student.getId())) {
                     throw new StudentInGroupException();
                 }
             }
         }
     }
 
-    public void updateGroup(Group group) {
+    public void updateGroup(Group group, String groupId) {
         for (int i = 0; i < getGroups().size(); i++) {
-            if (groups.get(i).getGroupId().equals(group.getGroupId())) {
+            if (groups.get(i).getGroupId().equals(groupId)) {
                 groups.set(i, group);
                 return;
             }
         }
         throw new GroupNotFoundException();
-    }
-
-    public void findDuplicateGroup(Group group) {
-        for (int i = 0; i < getGroups().size(); i++) {
-            if (groups.get(i).getName().equals(group.getName())) {
-              throw new GroupDuplicateException();
-            }
-        }
-
     }
 
     public void deleteGroup(Group group) {
@@ -208,7 +175,6 @@ public class InMemoryStorage implements Storage {
                 groups.remove(groups.get(i));
             }
         }
-
     }
 
 
@@ -216,5 +182,4 @@ public class InMemoryStorage implements Storage {
     public void addGroup(Group group) {
 groups.add(group);
     }
-
 }

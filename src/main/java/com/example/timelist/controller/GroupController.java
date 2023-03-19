@@ -13,17 +13,11 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 public class GroupController {
-
-
-
-    private final InMemoryStorage storage;
     private final GroupService groupService;
-
-
 
     @PostMapping("/groups")
     public void create(@RequestBody @Valid Group group){
-       groupService.addGroup(group);
+        groupService.addGroup(group);
     }
 
     @GetMapping("/groups")
@@ -39,7 +33,4 @@ public class GroupController {
     public void delete(@RequestBody Group group){
         groupService.deleteGroup(group);
     }
-
-
-
 }
