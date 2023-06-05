@@ -3,11 +3,9 @@ package com.example.timelist.service;
 import com.example.timelist.beans.Group;
 import com.example.timelist.error.GroupDuplicateException;
 import com.example.timelist.persistence.InMemoryStorage;
-import com.example.timelist.persistence.Storage;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.UUID;
 
@@ -40,10 +38,13 @@ public class GroupService {
         storage.deleteGroup(group);
     }
 
-    public void findDuplicateGroup(Group group) {
+    private void findDuplicateGroup(Group group) {
         log.info("Find Duplicate Group");
         for (int i = 0; i < getGroups().size(); i++) {
             if (storage.getGroups().get(i).getName().equals(group.getName())) {
+                Group duplicateGr = storage.getGroups().get(i);
+                log.warn("Group with name = [{}] id = [{}] already exist", duplicateGr.getGroupId(),
+                        duplicateGr.getName());
                 throw new GroupDuplicateException();
             }
         }

@@ -1,14 +1,15 @@
 package com.example.timelist.service;
 
 import com.example.timelist.beans.Group;
+import com.example.timelist.beans.Student;
+import com.example.timelist.error.GroupSizeStudentException;
+import com.example.timelist.error.StudentAlreadyHaveGroupException;
 import com.example.timelist.error.StudentDuplicateException;
 import com.example.timelist.error.StudentInGroupException;
 import com.example.timelist.persistence.InMemoryStorage;
-import com.example.timelist.beans.Student;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.UUID;
 @Slf4j
@@ -39,24 +40,56 @@ public class StudentService {
         storage.deleteStudent(student);
     }
 
+    public void divideStudents() {
+        int i = storage.getStudents().size() / storage.getGroups().size();
+        int l = i;
+        int k = 0;
+
+        for (int j = 0; j < storage.getGroups().size() * 20 ; j++) {
+
+            if (j == 20) {
+                sizeStudentInGroup(storage.getGroups().get(k));
+                k++;
+                j = 0;
+            }
+            checkStudentDuplicateInGroup(storage.getStudents().get(j), storage.getGroups().get(k));
+            storage.getGroups().get(k).getStudentId().add(storage.getStudents().get(j).getId());
+        }
+    }
+
+    public void checkStudentDuplicateInGroup(Student student, Group group){
+        for (int i = 0; i < group.getStudentId().size(); i++){
+            if(student.getId().equals(group.getStudentId().get(i))){
+                throw new StudentInGroupException();
+            };
+        }
+    }
+
+    public void sizeStudentInGroup (Group group){
+        if (group.getStudentId().size() > 20 ){
+            throw new GroupSizeStudentException();
+        }
+    }
+
     public void checkStDuplicateEx(Student student){
         log.info("checkStDuplicateEx");
         for (Student value : storage.getStudents()) {
-            if (value.getId().equals(student.getId())) {
-                if (value.getName().equals(student.getName())) {
-                    if (value.getAge() == (student.getAge())) {
-                        throw new StudentDuplicateException();
-                    }
+            if (value.getName().equals(student.getName())) {
+                if (value.getAge() == (student.getAge())) {
+                    throw new StudentDuplicateException();
                 }
             }
+
         }
     }
-    public void checkStMoreGroup(Student student){
-        log.info("Check Student More Group");
-        for (Group group : storage.getGroups()) {
-            for (int j = 0; j < group.getStudentId().size(); j++) {
-                if (group.getStudentId().get(j).equals(student.getId())) {
-                    throw new StudentInGroupException();
+
+    public void checkStMoreOneGroup (Group stGroup, String studentId){
+        for (Group checkGroup : storage.getGroups() ){
+            for (String idInList : checkGroup.getStudentId()){
+                if(idInList.equals(studentId)){
+                    if(checkGroup != stGroup){
+                        throw new StudentAlreadyHaveGroupException();
+                    }
                 }
             }
         }

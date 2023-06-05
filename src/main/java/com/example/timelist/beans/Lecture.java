@@ -6,6 +6,7 @@ import lombok.ToString;
 
 import javax.validation.constraints.*;
 import java.time.LocalDateTime;
+import java.time.Month;
 import java.util.List;
 
 @Getter
@@ -26,4 +27,7 @@ public class Lecture {
     @NotBlank
     @Future
     private LocalDateTime dateTime;
+
+    public void setDateTime(int i, Month of, int i1, int i2, int i3) {
+    }
 }

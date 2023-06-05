@@ -22,7 +22,7 @@ public class LectureService {
                 lecture.getDateTime(), lecture.getLectorName());
         lecture.setId(UUID.randomUUID().toString());
         checkRoom(lecture);
-        storage.getLectures().add(lecture);
+        storage.add(lecture);
         return lecture;
     }
 

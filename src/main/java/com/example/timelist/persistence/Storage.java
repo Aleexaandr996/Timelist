@@ -31,7 +31,7 @@ public interface Storage {
     public Lecture deleteLecture(String id);
 
     public List<Student> getStudents();
-    void add(Student student);
+    public void add(Student student);
     public Student updateStudent(Student student, String studentId);
     public Student deleteStudent(Student student);
 }
