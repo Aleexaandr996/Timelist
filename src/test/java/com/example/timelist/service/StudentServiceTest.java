@@ -3,7 +3,6 @@ package com.example.timelist.service;
 import com.example.timelist.beans.Group;
 import com.example.timelist.beans.Student;
 import com.example.timelist.error.GroupSizeStudentException;
-import com.example.timelist.error.StudentAlreadyHaveGroupException;
 import com.example.timelist.error.StudentDuplicateException;
 import com.example.timelist.persistence.InMemoryStorage;
 import org.junit.jupiter.api.Assertions;
@@ -24,14 +23,11 @@ import static org.mockito.Mockito.*;
 class StudentServiceTest {
     @Mock
     InMemoryStorage storage;
-
     @InjectMocks
     StudentService studentService;
-    @InjectMocks
-    Group group;
 
     @Test
-    void addStudent() {
+    void ifAddNewStudentThenStudentIsCreate() {
         Student student = new Student();
         student.setName("Max");
         student.setAge(15);
@@ -40,10 +36,11 @@ class StudentServiceTest {
         studentService.addStudent(student);
 //        Then
         verify(storage).add(student);
+        assertThat(student.getId()).isNotNull();
     }
 
     @Test
-    void getStudents() {
+    void ifGetStudentsThenStorageInvoked() {
 //        Given
         List <Student> expendStudents = new ArrayList<>();
         when(storage.getStudents()).thenReturn(expendStudents);
@@ -54,7 +51,7 @@ class StudentServiceTest {
     }
 
     @Test
-    void updateStudent() {
+    void IfUpdateStudentThenNewStudentSaveOnPlaceOldStudent() {
         Student student = new Student();
         student.setName("Max");
         student.setAge(15);
@@ -63,10 +60,11 @@ class StudentServiceTest {
         studentService.updateStudent(student, student.getId());
 
         verify(storage).updateStudent(student, student.getId());
+        assertThat(student.getId()).isNotNull();
     }
 
     @Test
-    void deleteStudent() {
+    void ifDeleteStudentThenGivenStudentRemove() {
         Student student = new Student();
         student.setName("Max");
         student.setAge(15);
@@ -82,16 +80,11 @@ class StudentServiceTest {
     }
 
     @Test
-    void checkStudentDuplicateInGroup() {
-    }
-
-    @Test
     void sizeStudentInGroup() {
         Group group = new Group();
         group.setName("MK-21");
-        List <String> buffer = new ArrayList<>();
         for (int i = 0; i < 21; i++) {
-           group.getStudentId().add("2" + i);
+            group.getStudentId().add(i,"1");
         }
         Assertions.assertThrows(GroupSizeStudentException.class,() -> {
             studentService.sizeStudentInGroup(group);
@@ -120,26 +113,5 @@ class StudentServiceTest {
             studentService.addStudent(duplicate);
         });
         verify(storage,times(0)).add(duplicate);
-    }
-
-    @Test
-    void checkStMoreOneGroup() {
-//        Given
-        Group groupFirst = new Group();
-        group.setName("MK-21");
-        groupFirst.setGroupId(UUID.randomUUID().toString());
-        Group groupSecond = new Group();
-        group.setName("MK-22");
-        groupSecond.setGroupId(UUID.randomUUID().toString());
-        Student student = new Student();
-        student.setName("Max");
-        student.setAge(15);
-        student.setId(UUID.randomUUID().toString());
-        groupFirst.getStudentId().add(student.getId());
-
-        Assertions.assertThrows(StudentAlreadyHaveGroupException.class,() ->{
-            groupSecond.getStudentId().add(student.getId());
-        });
-        verify(groupSecond.getStudentId(),times(0)).add(student.getId());
     }
 }

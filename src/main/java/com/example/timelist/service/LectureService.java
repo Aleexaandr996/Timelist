@@ -45,7 +45,7 @@ public class LectureService {
         log.info("Check Room");
         for (Lecture existingLecture : storage.getLectures()) {
             if (isRoomBooked(existingLecture, lecture)) {
-                throw new LectureRoomException();
+                throw new LectureRoomException("Room number["+lecture.getRoom()+"] already booked this day, this time");
             }
         }
     }

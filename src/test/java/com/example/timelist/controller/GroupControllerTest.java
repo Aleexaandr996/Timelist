@@ -13,7 +13,6 @@ import java.util.List;
 import java.util.UUID;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -27,7 +26,7 @@ class GroupControllerTest {
     GroupController groupController;
 
     @Test
-    void create() {
+    void ifCreateGroupThenGroupCreated() {
         Group group = new Group();
         group.setName("MK-21");
 
@@ -39,7 +38,7 @@ class GroupControllerTest {
     }
 
     @Test
-    void getGroups() {
+    void ifGetGroupsThenGroupServiceInvoked() {
         List<Group> expectedGroups = new ArrayList<>();
 
         when(groupService.getGroups()).thenReturn(expectedGroups);
@@ -52,7 +51,7 @@ class GroupControllerTest {
     }
 
     @Test
-    void update() {
+    void IfUpdateGroupThenNewGroupSaveOnPlaceOldGroup() {
         Group group = new Group();
         group.setName("MK-21");
         String groupId = UUID.randomUUID().toString();
@@ -64,7 +63,7 @@ class GroupControllerTest {
     }
 
     @Test
-    void delete() {
+    void ifDeleteGroupThenGivenGroupRemove() {
 //        Given
         List<Group> groups = new ArrayList<>();
         Group group = new Group();

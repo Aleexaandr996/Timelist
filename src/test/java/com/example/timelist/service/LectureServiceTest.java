@@ -27,7 +27,7 @@ class LectureServiceTest {
     @InjectMocks
     LectureService lectureService;
     @Test
-    void addLecture() {
+    void ifAddNewLectureThenLectureIsCreated() {
 //        Given
         Lecture lecture = new Lecture();
         lecture.setName("History");
@@ -42,10 +42,11 @@ class LectureServiceTest {
 
 //        Then
         verify(storage).add(lecture);
+        assertThat(lecture.getId()).isNotNull();
     }
 
     @Test
-    void getLectures() {
+    void ifGetLecturesThenStorageInvoked() {
 //        Given
         List<Lecture> expectedLectures = new ArrayList<>();
         when(storage.getLectures()).thenReturn(expectedLectures);
@@ -57,7 +58,7 @@ class LectureServiceTest {
     }
 
     @Test
-    void updateLecture() {
+    void IfUpdateLectureThenNewLectureSaveOnPlaceOldLecture() {
 //        Given
         Lecture lecture = new Lecture();
         lecture.setName("History");
@@ -70,10 +71,11 @@ class LectureServiceTest {
 
 //        Then
         verify(storage).updateLecture(lecture, lectureId);
+        assertThat(lecture.getId()).isNotNull();
     }
 
     @Test
-    void deleteLecture() {
+    void ifDeleteLectureThenGivenLectureRemove() {
 //               Given
 
         Lecture lecture = new Lecture();
@@ -91,7 +93,7 @@ class LectureServiceTest {
     }
 
     @Test
-    void checkRoom() {
+    void ifRoomBookedThenNewLectureIsNotCreated() {
 //           Given
         List<Lecture> lectures = new ArrayList<>();
 //          First Lecture
@@ -103,6 +105,8 @@ class LectureServiceTest {
         lecture.setId(UUID.randomUUID().toString());
         lectures.add(lecture);
 
+        when(storage.getLectures()).thenReturn(lectures);
+
         //        When
 //        Duplicate Lecture
         Lecture duplicateLecture = new Lecture();
@@ -112,12 +116,11 @@ class LectureServiceTest {
         lecture.setDateTime(2024,Month.of(9),10,12,30);
         lecture.setId(UUID.randomUUID().toString());
 
-        lectureService.addLecture(duplicateLecture);
-
-
         Assertions.assertThrows(LectureRoomException.class, () -> {
             lectureService.checkRoom(duplicateLecture);
         });
+
+        verify(storage,times(0)).add(duplicateLecture);
 
     }
 

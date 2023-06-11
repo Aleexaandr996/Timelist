@@ -26,24 +26,6 @@ class GroupServiceTest {
     InMemoryStorage storage;
     @InjectMocks
     GroupService groupService;
-
-//    @Test
-//    void addGroup() {
-//        //Given
-//
-//        Group group = new Group();
-//        group.setName("MK-21");
-//        when(storage.getGroups()).thenReturn();
-//        doNothing().when(storage).addGroup(group);
-//
-//        //When
-//        groupService.addGroup(group);
-//
-//        //Then
-//        verify(storage,times(0)).addGroup(group);
-//        verifyNoInteractions(storage);
-//    }
-
     @Test
     void ifAddNewGroupThenGroupIsCreated() {
         //Given
@@ -57,6 +39,7 @@ class GroupServiceTest {
 
         //Then
         verify(storage).addGroup(group);
+        assertThat(group.getGroupId()).isNotNull();
     }
 
     @Test
@@ -109,7 +92,7 @@ class GroupServiceTest {
     }
 
     @Test
-    void update(){
+    void IfUpdateGroupThenNewGroupSaveOnPlaceOldGroup(){
         Group group = new Group();
         group.setName("MK-21");
         String groupId = UUID.randomUUID().toString();
@@ -118,5 +101,6 @@ class GroupServiceTest {
 
 //        Then
         verify(storage).updateGroup(group, groupId);
+        assertThat(group.getGroupId()).isNotNull();
     }
 }

@@ -29,8 +29,9 @@ public class GroupService {
     public void updateGroup (Group group,String groupId){
         log.info("Update group name={} groupId={}",group.getName(), group.getGroupId());
         group.setGroupId(groupId);
-        storage.updateGroup(group, groupId);
         findDuplicateGroup(group);
+        storage.updateGroup(group, groupId);
+
     }
 
     public void deleteGroup (Group group){
@@ -45,7 +46,7 @@ public class GroupService {
                 Group duplicateGr = storage.getGroups().get(i);
                 log.warn("Group with name = [{}] id = [{}] already exist", duplicateGr.getGroupId(),
                         duplicateGr.getName());
-                throw new GroupDuplicateException();
+                throw new GroupDuplicateException("Group with name = "+group.getName()+" already exist ");
             }
         }
     }
