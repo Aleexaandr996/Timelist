@@ -10,7 +10,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.time.Month;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -33,7 +33,7 @@ class LectureServiceTest {
         lecture.setName("History");
         lecture.setRoom("25");
         lecture.setLectorName("Inna");
-        lecture.setDateTime(2024,Month.of(9),10,12,30);
+        lecture.setDateTime(LocalDateTime.of(2024,9,10,12,30));
         lecture.setId(UUID.randomUUID().toString());
         when(lectureService.getLectures()).thenReturn(new ArrayList<>());
 //         When
@@ -64,7 +64,7 @@ class LectureServiceTest {
         lecture.setName("History");
         lecture.setRoom("25");
         lecture.setLectorName("Inna");
-        lecture.setDateTime(2024,Month.of(9),10,12,30);
+        lecture.setDateTime(LocalDateTime.of(2024,9,10,12,30));
         String lectureId = UUID.randomUUID().toString();
 //        When
         lectureService.updateLecture(lecture, lectureId);
@@ -82,7 +82,7 @@ class LectureServiceTest {
         lecture.setName("History");
         lecture.setRoom("25");
         lecture.setLectorName("Inna");
-        lecture.setDateTime(2024,Month.of(9),10,12,30);
+        lecture.setDateTime(LocalDateTime.of(2024,9,10,12,30));
         lecture.setId(UUID.randomUUID().toString());
 
 //         When
@@ -101,7 +101,7 @@ class LectureServiceTest {
         lecture.setName("History");
         lecture.setRoom("25");
         lecture.setLectorName("Inna");
-        lecture.setDateTime(2024,Month.of(9),10,12,30);
+        lecture.setDateTime(LocalDateTime.of(2024,9,10,12,30));
         lecture.setId(UUID.randomUUID().toString());
         lectures.add(lecture);
 
@@ -113,7 +113,7 @@ class LectureServiceTest {
         lecture.setName("Geography");
         lecture.setRoom("25");
         lecture.setLectorName("Leon");
-        lecture.setDateTime(2024,Month.of(9),10,12,30);
+        lecture.setDateTime(LocalDateTime.of(2024,9,10,12,30));
         lecture.setId(UUID.randomUUID().toString());
 
         Assertions.assertThrows(LectureRoomException.class, () -> {
@@ -121,7 +121,5 @@ class LectureServiceTest {
         });
 
         verify(storage,times(0)).add(duplicateLecture);
-
     }
-
 }

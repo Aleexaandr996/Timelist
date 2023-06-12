@@ -53,14 +53,14 @@ public class StudentService {
                 j = 0;
             }
             checkStudentDuplicateInGroup(storage.getStudents().get(j), storage.getGroups().get(k));
-            storage.getGroups().get(k).getStudentId().add(storage.getStudents().get(j).getId());
+            storage.getGroups().get(k).getStudentIds().add(storage.getStudents().get(j).getId());
         }
     }
 
 
     public void checkStudentDuplicateInGroup(Student student, Group group){
-        for (int i = 0; i < group.getStudentId().size(); i++){
-            if(student.getId().equals(group.getStudentId().get(i))){
+        for (String id : group.getStudentIds()){
+            if(student.getName().equals(findStudentName(id))){
                 throw new StudentInGroupException
                         ("Student with this name ["+student.getName()+"] in this group["
                                 +group.getName()+"] already exist ");
@@ -68,8 +68,14 @@ public class StudentService {
         }
     }
 
+    private String findStudentName( String id){
+        var stId = storage.getStudents().stream().filter(student -> student.getId().equals(id)).
+                findFirst();
+        return stId.map(Student::getName).orElse(null);
+    }
+
     public void sizeStudentInGroup (Group group){
-        if (group.getStudentId().size() > 20 ){
+        if (group.getStudentIds().size() > 20 ){
             throw new GroupSizeStudentException("Maximum number students in group - 20 persons");
         }
     }

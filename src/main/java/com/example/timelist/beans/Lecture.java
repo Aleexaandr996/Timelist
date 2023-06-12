@@ -4,9 +4,11 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-import javax.validation.constraints.*;
+import javax.validation.constraints.Future;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
-import java.time.Month;
 import java.util.List;
 
 @Getter
@@ -27,7 +29,4 @@ public class Lecture {
     @NotBlank
     @Future
     private LocalDateTime dateTime;
-
-    public void setDateTime(int i, Month of, int i1, int i2, int i3) {
-    }
 }

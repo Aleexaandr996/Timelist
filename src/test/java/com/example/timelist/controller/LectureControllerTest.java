@@ -8,7 +8,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.time.Month;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -32,7 +32,7 @@ class LectureControllerTest {
         lecture.setName("History");
         lecture.setRoom("25");
         lecture.setLectorName("Inna");
-        lecture.setDateTime(2024, Month.of(9),10,12,30);
+        lecture.setDateTime(LocalDateTime.of(2024,9,10,12,30));
         lecture.setId(UUID.randomUUID().toString());
 //         When
         lectureController.create(lecture);
@@ -60,7 +60,7 @@ class LectureControllerTest {
         lecture.setName("History");
         lecture.setRoom("25");
         lecture.setLectorName("Inna");
-        lecture.setDateTime(2024,Month.of(9),10,12,30);
+        lecture.setDateTime(LocalDateTime.of(2024,9,10,12,30));
         String lectureId = UUID.randomUUID().toString();
 //        When
         lectureController.update(lecture, lectureId);
@@ -77,7 +77,7 @@ class LectureControllerTest {
         lecture.setName("History");
         lecture.setRoom("25");
         lecture.setLectorName("Inna");
-        lecture.setDateTime(2024,Month.of(9),10,12,30);
+        lecture.setDateTime(LocalDateTime.of(2024,9,10,12,30));
         lecture.setId(UUID.randomUUID().toString());
 
 //         When

@@ -75,16 +75,13 @@ class StudentServiceTest {
         verify(storage).deleteStudent(student);
     }
 
-    @Test
-    void divideStudents() {
-    }
 
     @Test
     void sizeStudentInGroup() {
         Group group = new Group();
         group.setName("MK-21");
         for (int i = 0; i < 21; i++) {
-            group.getStudentId().add(i,"1");
+            group.getStudentIds().add(i,"1");
         }
         Assertions.assertThrows(GroupSizeStudentException.class,() -> {
             studentService.sizeStudentInGroup(group);
