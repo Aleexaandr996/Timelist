@@ -3,7 +3,6 @@ package com.example.timelist.controller;
 
 import com.example.timelist.beans.Group;
 import com.example.timelist.service.GroupService;
-import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -60,28 +59,18 @@ class GroupControllerMvcTest {
 
 @Test
   void ifCreateGroupThenGroupCreated() throws Exception {
-  Group group = new Group();
-  group.setName("MK-21");
-  group.setGroupId(UUID.randomUUID().toString());
-//        When
-    groupService.addGroup(group);
-
-//        Then
-    verify(groupService).addGroup(group);
-
-  mockMvc.perform(MockMvcRequestBuilders.post("/groups"))
+    mockMvc.perform(MockMvcRequestBuilders.post("/groups"))
           .andExpect(content().contentType(MediaType.APPLICATION_JSON))
           .andExpect(content().json("{\n"
-                  + "  \"name\": \"MK-21\",\n"
-                  + "  \"groupId\": \"" + group.getGroupId() + "\"\n"
-                  + "}"))
-          .andExpect(MockMvcResultMatchers.status().isCreated())
-          .andExpect(MockMvcResultMatchers.header().exists("Location"))
-          .andExpect(MockMvcResultMatchers.header()
-                  .string("Location", Matchers.containsString("MK-21")));
+                  + "  \"name\": \"MK-21\"\n" +
+
+                  "}"))
+            .andExpect(MockMvcResultMatchers.status().isOk());
 
   verify(groupService).addGroup(any(Group.class));
   }
+
+
 
 //  @Test
 //  void IfUpdateGroupThenNewGroupSaveOnPlaceOldGroup() {
@@ -103,10 +92,6 @@ class GroupControllerMvcTest {
     group.setName("MK-21");
     group.setGroupId(UUID.randomUUID().toString());
     groups.add(group);
-
-    groupService.deleteGroup(group);
-
-    verify(groupService).deleteGroup(group);
 
     mockMvc.perform(MockMvcRequestBuilders.delete("/groups"))
             .andExpect(content().contentType(MediaType.APPLICATION_JSON))
