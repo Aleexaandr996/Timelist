@@ -6,6 +6,7 @@ import com.example.timelist.persistence.InMemoryStorage;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
 import java.util.UUID;
 
@@ -15,11 +16,12 @@ import java.util.UUID;
 public class GroupService {
     private final InMemoryStorage storage;
 
-    public void addGroup (Group group){
+    public String addGroup (Group group){
         log.info("Create group name={}", group.getName());
         group.setGroupId(UUID.randomUUID().toString());
         findDuplicateGroup(group);
         storage.addGroup(group);
+        return group.getGroupId ();
     }
 
     public List<Group> getGroups(){
@@ -34,9 +36,9 @@ public class GroupService {
 
     }
 
-    public void deleteGroup (Group group){
-        log.info("Delete group name={} id={}", group.getName(), group.getGroupId());
-        storage.deleteGroup(group);
+    public void deleteGroup (UUID groupId){
+        log.info("Delete group id={}", groupId);
+        storage.deleteGroup(groupId);
     }
 
     private void findDuplicateGroup(Group group) {
@@ -46,7 +48,7 @@ public class GroupService {
                 Group duplicateGr = storage.getGroups().get(i);
                 log.warn("Group with name = [{}] id = [{}] already exist", duplicateGr.getGroupId(),
                         duplicateGr.getName());
-                throw new GroupDuplicateException("Group with name = "+group.getName()+" already exist ");
+                throw new GroupDuplicateException();
             }
         }
     }

@@ -2,7 +2,7 @@ package com.example.timelist.service;
 
 import com.example.timelist.beans.Group;
 import com.example.timelist.beans.Student;
-import com.example.timelist.error.GroupSizeStudentException;
+import com.example.timelist.error.StudentSizeInGroupException;
 import com.example.timelist.error.StudentDuplicateException;
 import com.example.timelist.persistence.InMemoryStorage;
 import org.junit.jupiter.api.Assertions;
@@ -68,11 +68,12 @@ class StudentServiceTest {
         Student student = new Student();
         student.setName("Max");
         student.setAge(15);
-        student.setId(UUID.randomUUID().toString());
+        UUID id = UUID.randomUUID();
+        student.setId(id.toString());
 
-        studentService.deleteStudent(student);
+        studentService.deleteStudent(id);
 
-        verify(storage).deleteStudent(student);
+        verify(storage).deleteStudent(id);
     }
 
 
@@ -83,7 +84,7 @@ class StudentServiceTest {
         for (int i = 0; i < 21; i++) {
             group.getStudentIds().add(i,"1");
         }
-        Assertions.assertThrows(GroupSizeStudentException.class,() -> {
+        Assertions.assertThrows(StudentSizeInGroupException.class,() -> {
             studentService.sizeStudentInGroup(group);
         });
     }

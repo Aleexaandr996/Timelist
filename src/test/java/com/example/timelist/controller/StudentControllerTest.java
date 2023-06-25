@@ -65,10 +65,11 @@ class StudentControllerTest {
         Student student = new Student();
         student.setName("Max");
         student.setAge(15);
-        student.setId(UUID.randomUUID().toString());
+        UUID id = UUID.randomUUID();
+        student.setId(id.toString());
 
-        studentController.delete(student);
+        studentController.delete(id);
 
-        verify(studentService).deleteStudent(student);
+        verify(studentService).deleteStudent(id);
     }
 }

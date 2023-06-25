@@ -33,6 +33,7 @@ class GroupControllerTest {
 //        When
         groupController.create(group);
 
+
 //        Then
         verify(groupService).addGroup(group);
     }
@@ -68,9 +69,11 @@ class GroupControllerTest {
         List<Group> groups = new ArrayList<>();
         Group group = new Group();
         group.setName("MK-21");
+        UUID groupId =  UUID.randomUUID();
+        group.setGroupId ( groupId.toString () );
 
-        groupController.delete(group);
+        groupController.delete(groupId);
 
-        verify(groupService).deleteGroup(group);
+        verify(groupService).deleteGroup(groupId);
     }
 }

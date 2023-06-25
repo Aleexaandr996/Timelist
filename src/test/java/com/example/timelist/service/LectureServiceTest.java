@@ -83,13 +83,14 @@ class LectureServiceTest {
         lecture.setRoom("25");
         lecture.setLectorName("Inna");
         lecture.setDateTime(LocalDateTime.of(2024,9,10,12,30));
-        lecture.setId(UUID.randomUUID().toString());
+        UUID id = UUID.randomUUID();
+        lecture.setId(id.toString());
 
 //         When
-        lectureService.deleteLecture(lecture);
+        lectureService.deleteLecture(id);
 
 //        Then
-        verify(storage).deleteLecture(lecture.getId());
+        verify(storage).deleteLecture(id);
     }
 
     @Test

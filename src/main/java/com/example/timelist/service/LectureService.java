@@ -17,13 +17,13 @@ import java.util.UUID;
 public class LectureService {
     private final InMemoryStorage storage;
 
-    public Lecture addLecture(Lecture lecture) {
+    public String addLecture(Lecture lecture) {
         log.info("Create lecture name={} room={} dateTime={} lector={}", lecture.getName(), lecture.getRoom(),
                 lecture.getDateTime(), lecture.getLectorName());
-        lecture.setId(UUID.randomUUID().toString());
+                lecture.setId(UUID.randomUUID().toString());
         checkRoom(lecture);
         storage.add(lecture);
-        return lecture;
+        return lecture.getId ();
     }
 
     public List<Lecture> getLectures(){
@@ -36,9 +36,9 @@ public class LectureService {
         storage.updateLecture(lecture, lectureId);
     }
 
-    public void  deleteLecture (Lecture lecture) {
-        log.info("Delete lecture name={} id={}", lecture.getName(), lecture.getId());
-        storage.deleteLecture(lecture.getId());
+    public void  deleteLecture (UUID lectureId) {
+        log.info("Delete lecture  id={}", lectureId);
+        storage.deleteLecture(lectureId);
     }
 
     public void checkRoom (Lecture lecture){

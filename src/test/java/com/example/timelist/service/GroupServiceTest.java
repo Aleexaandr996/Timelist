@@ -85,10 +85,12 @@ class GroupServiceTest {
         List<Group> groups = new ArrayList<>();
         Group group = new Group();
         group.setName("MK-21");
+        UUID id = UUID.randomUUID();
+        group.setGroupId ( id.toString () );
 
-        groupService.deleteGroup(group);
+        groupService.deleteGroup(id);
 
-        verify(storage).deleteGroup(group);
+        verify(storage).deleteGroup(id);
     }
 
     @Test

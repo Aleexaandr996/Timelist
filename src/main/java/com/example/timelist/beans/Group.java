@@ -16,8 +16,4 @@ public class Group {
     @Pattern(regexp = "[A-Z]{2}-\\d{2}")
     private String name;
     private List<String> studentIds;
-
-    public void addStudent(Student student) {
-        getStudentIds().add(student.getId());
-    }
 }

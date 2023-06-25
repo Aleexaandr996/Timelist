@@ -2,9 +2,9 @@ package com.example.timelist.service;
 
 import com.example.timelist.beans.Group;
 import com.example.timelist.beans.Student;
-import com.example.timelist.error.GroupSizeStudentException;
+import com.example.timelist.error.StudentSizeInGroupException;
 import com.example.timelist.error.StudentDuplicateException;
-import com.example.timelist.error.StudentInGroupException;
+import com.example.timelist.error.StudentDuplicateInGroupException;
 import com.example.timelist.persistence.InMemoryStorage;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,11 +18,13 @@ import java.util.UUID;
 public class StudentService {
     private final InMemoryStorage storage;
 
-    public void addStudent ( Student student){
+    public UUID addStudent ( Student student){
         log.info("Create student name={} age={} ", student.getName(), student.getAge());
-        student.setId(UUID.randomUUID().toString());
+        UUID id = UUID.randomUUID();
+        student.setId(id.toString());
         checkStudentDuplicate(student);
         storage.add(student);
+        return id;
     }
 
     public List<Student> getStudents(){
@@ -35,25 +37,23 @@ public class StudentService {
         storage.updateStudent(student, studentId);
     }
 
-    public void deleteStudent (Student student){
-        log.info("Delete student name={} Id={}", student.getName(), student.getId());
-        storage.deleteStudent(student);
+    public void deleteStudent (UUID studentId){
+        log.info("Delete student  Id={}", studentId);
+        storage.deleteStudent(studentId);
     }
 
-    public void divideStudents() {
-        int i = storage.getStudents().size() / storage.getGroups().size();
-        int l = i;
-        int k = 0;
 
-        for (int j = 0; j < storage.getGroups().size() * 20 ; j++) {
 
-            if (j == 20) {
-                sizeStudentInGroup(storage.getGroups().get(k));
-                k++;
-                j = 0;
+    public void divideStudents (){
+        for (int student = 0; student < storage.getGroups().size() * 20; student++){
+            for (int group = 0; group < storage.getGroups().size(); group++) {
+                sizeStudentInGroup(storage.getGroups().get(group));
+                checkStudentDuplicateInGroup(storage.getStudents().get(student), storage.getGroups().get(group));
+                storage.getGroups().get(group).getStudentIds().add(storage.getStudents().get(student).getId());
+                if(storage.getGroups().get(group).getStudentIds().size() >= 20) {
+                group++;
+                }
             }
-            checkStudentDuplicateInGroup(storage.getStudents().get(j), storage.getGroups().get(k));
-            storage.getGroups().get(k).getStudentIds().add(storage.getStudents().get(j).getId());
         }
     }
 
@@ -61,7 +61,7 @@ public class StudentService {
     public void checkStudentDuplicateInGroup(Student student, Group group){
         for (String id : group.getStudentIds()){
             if(student.getName().equals(findStudentName(id))){
-                throw new StudentInGroupException
+                throw new StudentDuplicateInGroupException
                         ("Student with this name ["+student.getName()+"] in this group["
                                 +group.getName()+"] already exist ");
             };
@@ -76,7 +76,7 @@ public class StudentService {
 
     public void sizeStudentInGroup (Group group){
         if (group.getStudentIds().size() > 20 ){
-            throw new GroupSizeStudentException("Maximum number students in group - 20 persons");
+            throw new StudentSizeInGroupException("Maximum number students in group - 20 persons");
         }
     }
 
