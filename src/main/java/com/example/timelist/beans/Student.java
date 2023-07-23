@@ -10,7 +10,7 @@ import javax.validation.constraints.*;
 @Setter
 @ToString
 public class Student {
-    private String id;
+    private String studentId;
     @NotBlank
     @Size(min = 1, max = 15)
     private String name ;

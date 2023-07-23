@@ -31,7 +31,7 @@ public class GroupController {
     public void update(@RequestBody @Valid Group group, @PathVariable("id") String groupId){
         groupService.updateGroup(group,groupId);
     }
-    @DeleteMapping("/{}/groups/{id}")
+    @DeleteMapping("/groups/{id}")
     public void delete(@PathVariable ("id") UUID groupId){
         groupService.deleteGroup(groupId);
     }

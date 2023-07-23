@@ -18,13 +18,13 @@ import java.util.UUID;
 public class StudentService {
     private final InMemoryStorage storage;
 
-    public UUID addStudent ( Student student){
+    public String addStudent ( Student student){
         log.info("Create student name={} age={} ", student.getName(), student.getAge());
         UUID id = UUID.randomUUID();
-        student.setId(id.toString());
+        student.setStudentId (id.toString());
         checkStudentDuplicate(student);
         storage.add(student);
-        return id;
+        return id.toString ();
     }
 
     public List<Student> getStudents(){
@@ -49,7 +49,7 @@ public class StudentService {
             for (int group = 0; group < storage.getGroups().size(); group++) {
                 sizeStudentInGroup(storage.getGroups().get(group));
                 checkStudentDuplicateInGroup(storage.getStudents().get(student), storage.getGroups().get(group));
-                storage.getGroups().get(group).getStudentIds().add(storage.getStudents().get(student).getId());
+                storage.getGroups().get(group).getStudentIds().add(storage.getStudents().get(student).getStudentId ());
                 if(storage.getGroups().get(group).getStudentIds().size() >= 20) {
                 group++;
                 }
@@ -69,7 +69,7 @@ public class StudentService {
     }
 
     private String findStudentName( String id){
-        var stId = storage.getStudents().stream().filter(student -> student.getId().equals(id)).
+        var stId = storage.getStudents().stream().filter(student -> student.getStudentId ().equals(id)).
                 findFirst();
         return stId.map(Student::getName).orElse(null);
     }

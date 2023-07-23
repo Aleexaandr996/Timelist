@@ -1,5 +1,6 @@
 package com.example.timelist.beans;
 
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -11,7 +12,8 @@ import java.util.List;
 @Getter
 @Setter
 @ToString
-public class Lecture {
+@EqualsAndHashCode
+public class   Lecture {
     private String id;
     @NotBlank
     @Size(min = 1, max = 25)

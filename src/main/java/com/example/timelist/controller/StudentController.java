@@ -16,8 +16,8 @@ public class StudentController {
 
     @PostMapping("/students")
     public CreatedResponseStudent create(@RequestBody @Valid Student student){
-       UUID id = studentService.addStudent(student);
-       return CreatedResponseStudent.builder ().studentId ( id.toString () ).build ();
+       String id = studentService.addStudent(student);
+       return CreatedResponseStudent.builder ().studentId ( id ).build ();
     }
 
     @GetMapping("/students")
@@ -29,7 +29,7 @@ public class StudentController {
     public void update(@RequestBody @Valid Student student, @PathVariable("id") String studentId){
         studentService.updateStudent(student, studentId);
     }
-    @DeleteMapping("/{}/students/{id}")
+    @DeleteMapping("students/{id}")
     public void delete(@PathVariable("id") UUID studentId){
         studentService.deleteStudent(studentId);
     }

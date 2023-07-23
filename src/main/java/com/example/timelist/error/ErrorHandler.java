@@ -15,57 +15,69 @@ import java.util.Objects;
 @RestControllerAdvice
 public class ErrorHandler {
 
+    private GroupDuplicateException e;
+
     @ExceptionHandler
     public ResponseEntity<ErrorResponse> handleGroupNotFound(GroupNotFoundException e) {
-        ErrorResponse build = ErrorResponse.builder().massage(e.getMessage()).
-                error("404").error("GROUP NOT FOUND").build();
-        return ResponseEntity.badRequest().body(build);
+        ErrorResponse response = ErrorResponse.builder()
+                .message (e.getMessage()).build();
+        return ResponseEntity.status ( HttpStatus.NOT_FOUND ).body(response);
     }
 
     @ExceptionHandler
     public ResponseEntity<ErrorResponse> handleLectureNotFound(LectureNotFoundException e) {
-        ErrorResponse build = ErrorResponse.builder().massage(e.getMessage()).
-                error("404").error("LECTURE NOT FOUND").build();
-        return ResponseEntity.badRequest().body(build);
+        ErrorResponse response = ErrorResponse.builder()
+                .message (e.getMessage())
+                .build();
+        return ResponseEntity.status ( HttpStatus.NOT_FOUND ).body(response);
     }
     @ExceptionHandler
     public ResponseEntity<ErrorResponse> handleStudentNotFound(StudentNotFoundException e) {
-        ErrorResponse build = ErrorResponse.builder().massage(e.getMessage()).
-                error("404").error("STUDENT NOT FOUND").build();
-        return ResponseEntity.badRequest().body(build);
+        ErrorResponse response = ErrorResponse.builder()
+                .message (e.getMessage())
+                .build();
+        return ResponseEntity.status ( HttpStatus.NOT_FOUND ).body(response);
     }
 
     @ExceptionHandler
     public ResponseEntity<ErrorResponse> handleGroGroupSizeStudentException(StudentSizeInGroupException e) {
-        ErrorResponse build = ErrorResponse.builder().massage(e.getMessage()).
-                error("400").error("STUDENT SIZE IN GROUP").build();
+        ErrorResponse build = ErrorResponse.builder().message (e.getMessage())
+                .error("STUDENT SIZE IN GROUP").build();
         return ResponseEntity.badRequest().body(build);
     }
 
     @ExceptionHandler
     public ResponseEntity<ErrorResponse> handleGroupDuplicateException(GroupDuplicateException e) {
-
-        ErrorResponse build = ErrorResponse.builder().massage("Group with this name already exist ").
-                error("400").error("LECTURE ROOM").build();
+        ErrorResponse build = ErrorResponse.builder().message ("Group with this name already exist")
+                .error("DUPLICATED GROUP").build();
         return ResponseEntity.badRequest().body(build);
     }
+
+    @ExceptionHandler
+    public ResponseEntity<ErrorResponse> handleLectureDuplicateException(LectureDuplicateException e) {
+        ErrorResponse build = ErrorResponse.builder()
+                .message ("Lecture with this name already exist at this time and this room")
+                .error("DUPLICATED LECTURE").build();
+        return ResponseEntity.badRequest().body(build);
+    }
+
     @ExceptionHandler
     public ResponseEntity<ErrorResponse> handleLectureRoom(LectureRoomException e) {
-        ErrorResponse build = ErrorResponse.builder().massage(e.getMessage()).
-                error("400").error("LECTURE ROOM").build();
+        ErrorResponse build = ErrorResponse.builder().message ("LECTURE ROOM IS BOOKED ON THIS DAY AND TIME")
+                .error("LECTURE ROOM EXCEPTION").build();
         return ResponseEntity.badRequest().body(build);
     }
 
     @ExceptionHandler
     public ResponseEntity<ErrorResponse> handleStudentDuplicate(StudentDuplicateException e) {
-        ErrorResponse build = ErrorResponse.builder().massage(e.getMessage()).
-                error("400").error("STUDENT DUPLICATE NAME").build();
+        ErrorResponse build = ErrorResponse.builder().message ("Student with this information already exist")
+                .error("STUDENT DUPLICATE").build();
         return ResponseEntity.badRequest().body(build);
     }
 
     @ExceptionHandler
     public ResponseEntity<ErrorResponse> handleStudentInGroup(StudentDuplicateInGroupException e) {
-        ErrorResponse build = ErrorResponse.builder().massage(e.getMessage()).
+        ErrorResponse build = ErrorResponse.builder().message (e.getMessage()).
                 error("400").error("STUDENT DUPLICATE NAME IN GROUP").build();
         return ResponseEntity.badRequest().body(build);
     }
@@ -76,7 +88,7 @@ public class ErrorHandler {
         String field = Objects.requireNonNull(e.getFieldError()).getField();
         Object rejectedValue = e.getFieldError().getRejectedValue();
         assert rejectedValue != null;
-        ErrorResponse build = ErrorResponse.builder().field(field).massage ( "INVALID EXCEPTION" ).
+        ErrorResponse build = ErrorResponse.builder().field(field).message ( "INVALID EXCEPTION" ).
                 invalidValue(rejectedValue.toString()).code("400").build();
         return ResponseEntity.badRequest().body(build);
     }
@@ -88,7 +100,7 @@ public class ErrorHandler {
 
         Object rejectedValue = e.getFieldError().getRejectedValue();
         assert rejectedValue != null;
-        ErrorResponse build = ErrorResponse.builder().field(field).massage ( "INVALID EXCEPTION" ).
+        ErrorResponse build = ErrorResponse.builder().field(field).message ( "INVALID EXCEPTION" ).
                 invalidValue(rejectedValue.toString()).code("400").build();
         return ResponseEntity.badRequest().body(build);
     }
@@ -98,7 +110,7 @@ public class ErrorHandler {
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ResponseEntity<ErrorResponse> handleGeneric(Exception e) {
         log.info("Unknown exception", e);
-        ErrorResponse build = ErrorResponse.builder().massage("UNKNOWN EXCEPTION").build();
+        ErrorResponse build = ErrorResponse.builder().message ("UNKNOWN EXCEPTION").build();
         return ResponseEntity.badRequest().body(build);
     }
 

@@ -82,10 +82,10 @@ class GroupControllerMvcTest {
   void ifCreateDuplicatedGroupThenThrowDuplicateException () throws Exception {
     Group group = new Group ();
     group.setName ( "MK-21" );
-    groupService.addGroup ( group );
 
-    var groupId = UUID.randomUUID ().toString ();
-    doThrow ( new GroupDuplicateException () ).when ( groupService.addGroup ( any ( Group.class ) ) );
+    when ( groupService.addGroup ( group ) )
+            .thenThrow ( new GroupDuplicateException ("Group with this name already exist") );
+
 
     mockMvc.perform ( MockMvcRequestBuilders.post ( "/groups" )
                     .contentType ( MediaType.APPLICATION_JSON )
@@ -93,8 +93,10 @@ class GroupControllerMvcTest {
                     {
                       "name" : "MK-21"
                     }""" ) )
-            .andExpect (status ().isBadRequest () );
-
+            .andExpect (status ().isBadRequest () ).andExpect ( content ()
+                    .json ( "{\"error\":\"DUPLICATED GROUP\"," +
+                            "\"code\":null,\"message\":\"Group with this name already exist\"," +
+                            "\"invalidValue\":null,\"field\":null}" ) );
   }
 
   @Test
@@ -106,27 +108,29 @@ class GroupControllerMvcTest {
                     .contentType ( MediaType.APPLICATION_JSON )
                     .content ( """
                     {
-                      "name" : "MK21"
+                      "name" : "MK22"
                     }""" ) )
             .andExpect (status ().isBadRequest () )
             .andExpect ( content ().contentType ( MediaType.APPLICATION_JSON ) )
-            .andExpect ( content ().json ("{\n" +
-                    "  \"error\": null,\n" +
-                    "  \"code\": \"400\",\n" +
-                    "  \"massage\": \"INVALID EXCEPTION\",\n" +
-                    "  \"invalidValue\": \"MK21\",\n" +
-                    "  \"field\": \"name\"\n" +
-                    "}") );
+            .andExpect ( content ().json ( """
+                    {
+                      "error": null,
+                      "code": "400",
+                      "message": "INVALID EXCEPTION",
+                      "invalidValue": "MK22",
+                      "field": "name"
+                    }""" ) );
   }
 
   @Test
   void ifPutGroupThenNewGroupReplaceOldGroup () throws Exception {
+    var groupId =  UUID.randomUUID ().toString ();
     Group group = new Group ();
-    group.setName ( "MK-21" );
-    group.setGroupId ( UUID.randomUUID ().toString () );
-    doNothing().when ( groupService).updateGroup ( group, group.getGroupId () );
+    group.setName ( "MK-22" );
+    group.setStudentIds ( List.of ("12", "34") );
+    doNothing().when ( groupService).updateGroup ( group, groupId );
 
-    mockMvc.perform ( MockMvcRequestBuilders.put ( "/groups/{id}", group.getGroupId () )
+    mockMvc.perform ( MockMvcRequestBuilders.put ( "/groups/{id}", groupId )
                     .contentType ( MediaType.APPLICATION_JSON )
                     .content ( """
                             {
@@ -138,27 +142,33 @@ class GroupControllerMvcTest {
                               ]
                             }""" ) )
             .andExpect (status ().isOk () );
-
+    verify ( groupService ).updateGroup ( group, groupId );
   }
 
   @Test
   void ifPutGroupOnInvalidPathThenThrowNotFoundException () throws Exception {
-    var groupId = UUID.randomUUID ();
-    doThrow (new GroupNotFoundException ("GROUP NOT FOUND") ).when ( groupService).updateGroup ( any ( Group.class), groupId.toString () );
+    Group group = new Group ();
+    group.setName ( "MK-22" );
+    group.setGroupId ( UUID.randomUUID ().toString () );
+    group.setStudentIds ( List.of ("12", "34") );
 
-    mockMvc.perform ( MockMvcRequestBuilders.put ( "/groups/{id}", groupId )
+    doThrow (new GroupNotFoundException ("GROUP NOT FOUND") ).when ( groupService)
+            .updateGroup ( any ( Group.class), eq ( group.getGroupId () ) );
+
+    mockMvc.perform ( MockMvcRequestBuilders.put ( "/groups/{id}", group.getGroupId () )
                     .contentType ( MediaType.APPLICATION_JSON )
                     .content ( """
                             {
-                              "groupId": "31440ed6-0d48-4307-8165-8a0b0d509a10",
                               "name": "MK-22",
                               "studentIds": [
                                 "12",
                                 "34"
                               ]
                             }""" ) )
-            .andExpect (status ().isNotFound () );
-
+            .andExpect (status ().isNotFound () )
+            .andExpect ( content ()
+                    .json ( "{\"error\":null,\"code\":null,\"message\":\"GROUP NOT FOUND\"" +
+                            ",\"invalidValue\":null,\"field\":null}" ) );
   }
 
   @Test
@@ -169,7 +179,6 @@ class GroupControllerMvcTest {
 
     mockMvc.perform ( MockMvcRequestBuilders.delete ( "/groups/{id}", groupId ) )
             .andExpect ( MockMvcResultMatchers.status ().isOk () );
-
   }
 
 }

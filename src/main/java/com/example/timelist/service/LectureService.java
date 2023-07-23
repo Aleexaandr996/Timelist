@@ -1,6 +1,7 @@
 package com.example.timelist.service;
 
 import com.example.timelist.beans.Lecture;
+import com.example.timelist.error.LectureDuplicateException;
 import com.example.timelist.error.LectureRoomException;
 import com.example.timelist.persistence.InMemoryStorage;
 import lombok.RequiredArgsConstructor;
@@ -15,13 +16,14 @@ import java.util.UUID;
 @Service
 @RequiredArgsConstructor
 public class LectureService {
-    private final InMemoryStorage storage;
+    private final  InMemoryStorage storage;
 
     public String addLecture(Lecture lecture) {
         log.info("Create lecture name={} room={} dateTime={} lector={}", lecture.getName(), lecture.getRoom(),
                 lecture.getDateTime(), lecture.getLectorName());
                 lecture.setId(UUID.randomUUID().toString());
         checkRoom(lecture);
+        checkDuplicateLecture ( lecture );
         storage.add(lecture);
         return lecture.getId ();
     }
@@ -52,5 +54,17 @@ public class LectureService {
 
     private static boolean isRoomBooked(Lecture existingLecture, Lecture newLecture) {
         return Objects.equals(existingLecture.getRoom(), newLecture.getRoom()) && existingLecture.getDateTime().isEqual(newLecture.getDateTime());
+    }
+
+    public void checkDuplicateLecture (Lecture newLecture){
+        for (Lecture oldLecture : storage.getLectures ()){
+           if(newLecture.getDateTime ().isEqual ( oldLecture.getDateTime () ) &&
+                   newLecture.getName ().equals ( oldLecture.getName () ) &&
+                   newLecture.getLectorName ().equals ( oldLecture.getLectorName () ) &&
+                   newLecture.getRoom ().equals ( oldLecture.getRoom () )) {
+               throw new LectureDuplicateException
+                       ( "Lecture with name = "+newLecture.getName()+" already exist at this time and this room" );
+           }
+        }
     }
 }

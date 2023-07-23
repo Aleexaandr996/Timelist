@@ -30,7 +30,7 @@ class StudentControllerTest {
         Student student = new Student();
         student.setName("Max");
         student.setAge(15);
-        student.setId(UUID.randomUUID().toString());
+        student.setStudentId (UUID.randomUUID().toString());
 //        When
         studentController.create(student);
 //        Then
@@ -53,11 +53,11 @@ class StudentControllerTest {
         Student student = new Student();
         student.setName("Max");
         student.setAge(15);
-        student.setId(UUID.randomUUID().toString());
+        student.setStudentId (UUID.randomUUID().toString());
 
-        studentController.update(student, student.getId());
+        studentController.update(student, student.getStudentId ());
 
-        verify(studentService).updateStudent(student, student.getId());
+        verify(studentService).updateStudent(student, student.getStudentId ());
     }
 
     @Test
@@ -66,7 +66,7 @@ class StudentControllerTest {
         student.setName("Max");
         student.setAge(15);
         UUID id = UUID.randomUUID();
-        student.setId(id.toString());
+        student.setStudentId (id.toString());
 
         studentController.delete(id);
 

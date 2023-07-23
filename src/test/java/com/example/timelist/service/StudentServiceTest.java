@@ -31,12 +31,12 @@ class StudentServiceTest {
         Student student = new Student();
         student.setName("Max");
         student.setAge(15);
-        student.setId(UUID.randomUUID().toString());
+        student.setStudentId (UUID.randomUUID().toString());
 //        When
         studentService.addStudent(student);
 //        Then
         verify(storage).add(student);
-        assertThat(student.getId()).isNotNull();
+        assertThat(student.getStudentId ()).isNotNull();
     }
 
     @Test
@@ -55,12 +55,12 @@ class StudentServiceTest {
         Student student = new Student();
         student.setName("Max");
         student.setAge(15);
-        student.setId(UUID.randomUUID().toString());
+        student.setStudentId (UUID.randomUUID().toString());
 
-        studentService.updateStudent(student, student.getId());
+        studentService.updateStudent(student, student.getStudentId ());
 
-        verify(storage).updateStudent(student, student.getId());
-        assertThat(student.getId()).isNotNull();
+        verify(storage).updateStudent(student, student.getStudentId ());
+        assertThat(student.getStudentId ()).isNotNull();
     }
 
     @Test
@@ -69,7 +69,7 @@ class StudentServiceTest {
         student.setName("Max");
         student.setAge(15);
         UUID id = UUID.randomUUID();
-        student.setId(id.toString());
+        student.setStudentId (id.toString());
 
         studentService.deleteStudent(id);
 
@@ -96,7 +96,7 @@ class StudentServiceTest {
         Student student = new Student();
         student.setName("Max");
         student.setAge(15);
-        student.setId(UUID.randomUUID().toString());
+        student.setStudentId (UUID.randomUUID().toString());
         students.add(student);
 //           When
         when(storage.getStudents()).thenReturn(students);
@@ -104,7 +104,7 @@ class StudentServiceTest {
         Student duplicate = new Student();
         duplicate.setName("Max");
         duplicate.setAge(15);
-        duplicate.setId(student.getId());
+        duplicate.setStudentId (student.getStudentId ());
 
 //        Then
         Assertions.assertThrows(StudentDuplicateException.class,() -> {

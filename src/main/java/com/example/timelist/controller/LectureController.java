@@ -32,7 +32,7 @@ public class LectureController {
     public void update(@RequestBody @Valid Lecture lecture, @PathVariable("id") String lectureId){
        lectureService.updateLecture(lecture, lectureId);
     }
-    @DeleteMapping("/{}/lectures/{id}")
+    @DeleteMapping("/lectures/{id}")
     public void delete(@PathVariable("id") UUID lectureId){
         lectureService.deleteLecture(lectureId);
     }
