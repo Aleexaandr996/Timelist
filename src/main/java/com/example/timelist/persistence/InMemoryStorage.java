@@ -41,20 +41,21 @@ public class InMemoryStorage implements Storage {
         return lectures;
     }
 
-    public void  updateLecture(Lecture lecture, String lectureId) {
+    public void  updateLecture(Lecture newLecture, UUID lectureId) {
         for (Lecture thisLecture : getLectures()) {
             if (thisLecture.getId().equals(lectureId)) {
-                getLectures().add(lecture);
+                newLecture.setId ( lectureId );
+                getLectures().add(newLecture);
             }
         }
         throw new LectureNotFoundException ( "LECTURE WITH THIS ID "+lectureId+"NOT FOUND" );
     }
 
     public void deleteLecture(UUID lectureId) {
-        lectures.removeIf ( lecture -> lecture.getId ().equals ( lectureId.toString () ) );
+        lectures.removeIf ( lecture -> lecture.getId ().equals ( lectureId ) );
     }
 
-    public void updateStudent(Student student, String studentId) {
+    public void updateStudent(Student student, UUID studentId) {
         for (int i = 0; i < getStudents().size(); i++) {
             if (students.get(i).getStudentId ().equals(studentId)) {
                 students.set(i, student);
@@ -67,7 +68,7 @@ public class InMemoryStorage implements Storage {
         students.removeIf ( student -> student.getStudentId ().equals ( studentId.toString () ) );
     }
 
-    public void updateGroup(Group group, String groupId) {
+    public void updateGroup(Group group, UUID groupId) {
         for (int i = 0; i < getGroups().size(); i++) {
             if (groups.get(i).getGroupId().equals(groupId)) {
                 groups.set(i, group);
@@ -78,7 +79,7 @@ public class InMemoryStorage implements Storage {
     }
 
     public void deleteGroup(UUID groupId) {
-        groups.removeIf ( group -> groupId.toString ().equals ( group.getGroupId () ) );
+        groups.removeIf ( group -> groupId.equals ( group.getGroupId () ) );
     }
 
 

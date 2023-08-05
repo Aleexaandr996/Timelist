@@ -8,13 +8,14 @@ import lombok.ToString;
 import javax.validation.constraints.*;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 
 @Getter
 @Setter
 @ToString
 @EqualsAndHashCode
 public class   Lecture {
-    private String id;
+    private UUID id;
     @NotBlank
     @Size(min = 1, max = 25)
     private String name;

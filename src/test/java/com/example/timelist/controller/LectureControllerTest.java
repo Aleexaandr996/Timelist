@@ -61,7 +61,7 @@ class LectureControllerTest {
         lecture.setRoom("25");
         lecture.setLectorName("Inna");
         lecture.setDateTime(LocalDateTime.of(2024,9,10,12,30));
-        String lectureId = UUID.randomUUID().toString();
+        UUID lectureId = UUID.randomUUID();
 //        When
         lectureController.update(lecture, lectureId);
 
@@ -79,7 +79,7 @@ class LectureControllerTest {
         lecture.setLectorName("Inna");
         lecture.setDateTime(LocalDateTime.of(2024,9,10,12,30));
         UUID lectureId = UUID.randomUUID();
-        lecture.setId ( lectureId.toString () );
+        lecture.setId ( lectureId );
 
 //         When
         lectureController.delete(lectureId);

@@ -16,9 +16,9 @@ import java.util.UUID;
 public class GroupService {
     private final InMemoryStorage storage;
 
-    public String addGroup (Group group){
+    public UUID addGroup (Group group){
         log.info("Create group name={}", group.getName());
-        group.setGroupId(UUID.randomUUID().toString());
+        group.setGroupId(UUID.randomUUID());
         findDuplicateGroup(group);
         storage.addGroup(group);
         return group.getGroupId ();
@@ -28,7 +28,7 @@ public class GroupService {
         return storage.getGroups();
     }
 
-    public void updateGroup (Group group,String groupId){
+    public void updateGroup (Group group, UUID groupId){
         log.info("Update group name={} groupId={}",group.getName(), group.getGroupId());
         group.setGroupId(groupId);
         findDuplicateGroup(group);

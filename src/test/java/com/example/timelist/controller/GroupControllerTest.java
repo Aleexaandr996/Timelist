@@ -55,7 +55,7 @@ class GroupControllerTest {
     void IfUpdateGroupThenNewGroupSaveOnPlaceOldGroup() {
         Group group = new Group();
         group.setName("MK-21");
-        String groupId = UUID.randomUUID().toString();
+        UUID groupId = UUID.randomUUID();
 //         When
         groupController.update(group, groupId);
 
@@ -70,7 +70,7 @@ class GroupControllerTest {
         Group group = new Group();
         group.setName("MK-21");
         UUID groupId =  UUID.randomUUID();
-        group.setGroupId ( groupId.toString () );
+        group.setGroupId ( groupId );
 
         groupController.delete(groupId);
 

@@ -1,8 +1,6 @@
 package com.example.timelist.service;
 
-import com.example.timelist.beans.Group;
 import com.example.timelist.beans.Student;
-import com.example.timelist.error.StudentSizeInGroupException;
 import com.example.timelist.error.StudentDuplicateException;
 import com.example.timelist.persistence.InMemoryStorage;
 import org.junit.jupiter.api.Assertions;
@@ -31,7 +29,7 @@ class StudentServiceTest {
         Student student = new Student();
         student.setName("Max");
         student.setAge(15);
-        student.setStudentId (UUID.randomUUID().toString());
+        student.setStudentId (UUID.randomUUID());
 //        When
         studentService.addStudent(student);
 //        Then
@@ -55,7 +53,7 @@ class StudentServiceTest {
         Student student = new Student();
         student.setName("Max");
         student.setAge(15);
-        student.setStudentId (UUID.randomUUID().toString());
+        student.setStudentId (UUID.randomUUID());
 
         studentService.updateStudent(student, student.getStudentId ());
 
@@ -69,24 +67,11 @@ class StudentServiceTest {
         student.setName("Max");
         student.setAge(15);
         UUID id = UUID.randomUUID();
-        student.setStudentId (id.toString());
+        student.setStudentId (id);
 
         studentService.deleteStudent(id);
 
         verify(storage).deleteStudent(id);
-    }
-
-
-    @Test
-    void sizeStudentInGroup() {
-        Group group = new Group();
-        group.setName("MK-21");
-        for (int i = 0; i < 21; i++) {
-            group.getStudentIds().add(i,"1");
-        }
-        Assertions.assertThrows(StudentSizeInGroupException.class,() -> {
-            studentService.sizeStudentInGroup(group);
-        });
     }
 
     @Test
@@ -96,7 +81,7 @@ class StudentServiceTest {
         Student student = new Student();
         student.setName("Max");
         student.setAge(15);
-        student.setStudentId (UUID.randomUUID().toString());
+        student.setStudentId (UUID.randomUUID());
         students.add(student);
 //           When
         when(storage.getStudents()).thenReturn(students);

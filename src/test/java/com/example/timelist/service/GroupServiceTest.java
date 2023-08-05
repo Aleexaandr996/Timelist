@@ -48,7 +48,7 @@ class GroupServiceTest {
         List<Group> groups = new ArrayList<>();
         Group group = new Group();
         group.setName("MK-21");
-        String groupId = UUID.randomUUID().toString();
+        UUID groupId = UUID.randomUUID();
         group.setGroupId(groupId);
         groups.add(group);
 
@@ -86,7 +86,7 @@ class GroupServiceTest {
         Group group = new Group();
         group.setName("MK-21");
         UUID id = UUID.randomUUID();
-        group.setGroupId ( id.toString () );
+        group.setGroupId ( id );
 
         groupService.deleteGroup(id);
 
@@ -97,7 +97,7 @@ class GroupServiceTest {
     void IfUpdateGroupThenNewGroupSaveOnPlaceOldGroup(){
         Group group = new Group();
         group.setName("MK-21");
-        String groupId = UUID.randomUUID().toString();
+        UUID groupId = UUID.randomUUID();
 //         When
         groupService.updateGroup(group, groupId);
 

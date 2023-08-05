@@ -12,18 +12,18 @@ public interface Storage {
 
     public List<Group> getGroups();
 
-    void updateGroup (Group group, String groupId);
+    void updateGroup (Group group, UUID groupId);
 
     public void deleteGroup (UUID id);
 
     public List<Lecture> getLectures();
 
-    public void updateLecture(Lecture lecture, String lectureId);
+    public void updateLecture(Lecture lecture, UUID lectureId);
 
     public  void deleteLecture(UUID id);
 
     public List<Student> getStudents();
     public void add(Student student);
-    public void updateStudent(Student student, String studentId);
+    public void updateStudent(Student student, UUID studentId);
     public void deleteStudent(UUID studentId);
 }

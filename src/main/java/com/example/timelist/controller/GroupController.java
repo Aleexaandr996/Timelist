@@ -16,7 +16,7 @@ public class GroupController {
 
     @PostMapping("/groups")
     public CreatedResponseGroup create (@RequestBody @Valid Group group) {
-        String groupId = groupService.addGroup ( group );
+        UUID groupId = groupService.addGroup ( group );
         return CreatedResponseGroup.builder ()
                 .id ( groupId )
                 .build ();
@@ -28,7 +28,7 @@ public class GroupController {
     }
 
     @PutMapping("/groups/{id}")
-    public void update(@RequestBody @Valid Group group, @PathVariable("id") String groupId){
+    public void update(@RequestBody @Valid Group group, @PathVariable("id") UUID groupId){
         groupService.updateGroup(group,groupId);
     }
     @DeleteMapping("/groups/{id}")

@@ -18,20 +18,20 @@ import java.util.UUID;
 public class StudentService {
     private final InMemoryStorage storage;
 
-    public String addStudent ( Student student){
+    public UUID addStudent (Student student){
         log.info("Create student name={} age={} ", student.getName(), student.getAge());
         UUID id = UUID.randomUUID();
-        student.setStudentId (id.toString());
+        student.setStudentId (id);
         checkStudentDuplicate(student);
         storage.add(student);
-        return id.toString ();
+        return id;
     }
 
     public List<Student> getStudents(){
         return storage.getStudents();
     }
 
-    public void updateStudent (Student student, String studentId){
+    public void updateStudent (Student student, UUID studentId){
         log.info("update student name={} age={}", student.getName(), student.getAge());
         checkStudentDuplicate(student);
         storage.updateStudent(student, studentId);
@@ -41,22 +41,6 @@ public class StudentService {
         log.info("Delete student  Id={}", studentId);
         storage.deleteStudent(studentId);
     }
-
-
-
-    public void divideStudents (){
-        for (int student = 0; student < storage.getGroups().size() * 20; student++){
-            for (int group = 0; group < storage.getGroups().size(); group++) {
-                sizeStudentInGroup(storage.getGroups().get(group));
-                checkStudentDuplicateInGroup(storage.getStudents().get(student), storage.getGroups().get(group));
-                storage.getGroups().get(group).getStudentIds().add(storage.getStudents().get(student).getStudentId ());
-                if(storage.getGroups().get(group).getStudentIds().size() >= 20) {
-                group++;
-                }
-            }
-        }
-    }
-
 
     public void checkStudentDuplicateInGroup(Student student, Group group){
         for (String id : group.getStudentIds()){

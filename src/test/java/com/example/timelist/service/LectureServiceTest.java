@@ -34,7 +34,7 @@ class LectureServiceTest {
         lecture.setRoom("25");
         lecture.setLectorName("Inna");
         lecture.setDateTime(LocalDateTime.of(2024,9,10,12,30));
-        lecture.setId(UUID.randomUUID().toString());
+        lecture.setId(UUID.randomUUID());
         when(lectureService.getLectures()).thenReturn(new ArrayList<>());
 //         When
         lectureService.addLecture(lecture);
@@ -65,13 +65,13 @@ class LectureServiceTest {
         lecture.setRoom("25");
         lecture.setLectorName("Inna");
         lecture.setDateTime(LocalDateTime.of(2024,9,10,12,30));
-        String lectureId = UUID.randomUUID().toString();
+        UUID lectureId = UUID.randomUUID();
 //        When
         lectureService.updateLecture(lecture, lectureId);
 
 //        Then
         verify(storage).updateLecture(lecture, lectureId);
-        assertThat(lecture.getId()).isNotNull();
+
     }
 
     @Test
@@ -84,7 +84,7 @@ class LectureServiceTest {
         lecture.setLectorName("Inna");
         lecture.setDateTime(LocalDateTime.of(2024,9,10,12,30));
         UUID id = UUID.randomUUID();
-        lecture.setId(id.toString());
+        lecture.setId(id);
 
 //         When
         lectureService.deleteLecture(id);
@@ -103,22 +103,23 @@ class LectureServiceTest {
         lecture.setRoom("25");
         lecture.setLectorName("Inna");
         lecture.setDateTime(LocalDateTime.of(2024,9,10,12,30));
-        lecture.setId(UUID.randomUUID().toString());
+        lecture.setId(UUID.randomUUID());
         lectures.add(lecture);
 
-        when(storage.getLectures()).thenReturn(lectures);
-
-        //        When
-//        Duplicate Lecture
+        //        Duplicate Lecture
         Lecture duplicateLecture = new Lecture();
         lecture.setName("Geography");
         lecture.setRoom("25");
         lecture.setLectorName("Leon");
         lecture.setDateTime(LocalDateTime.of(2024,9,10,12,30));
-        lecture.setId(UUID.randomUUID().toString());
+        lecture.setId(UUID.randomUUID());
+
+        //        When
+        when(storage.getLectures()).thenReturn(lectures);
+
 
         Assertions.assertThrows(LectureRoomException.class, () -> {
-            lectureService.checkRoom(duplicateLecture);
+            lectureService.addLecture(duplicateLecture);
         });
 
         verify(storage,times(0)).add(duplicateLecture);

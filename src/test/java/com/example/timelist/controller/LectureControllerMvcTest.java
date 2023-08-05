@@ -38,7 +38,7 @@ class LectureControllerMvcTest {
 
     @Test
     void IfCreateThanLectureIsCreate () throws Exception {
-        var lectureId = UUID.randomUUID ().toString ();
+        var lectureId = UUID.randomUUID ();
         when(lectureService.addLecture ( any ( Lecture.class) )).thenReturn ( lectureId );
 
         mockMvc.perform ( post ( "/lectures" )
@@ -92,7 +92,7 @@ class LectureControllerMvcTest {
 
     @Test
     void IfCreateLectureWithInvalidNameThenLectureIsNotCreated () throws Exception {
-        var lectureId = UUID.randomUUID ().toString ();
+        var lectureId = UUID.randomUUID ();
 
 
         when(lectureService.addLecture ( any ( Lecture.class) )).thenReturn ( lectureId );
@@ -122,7 +122,7 @@ class LectureControllerMvcTest {
 
     @Test
     void IfCreateLectureWithInvalidLectorNameThenLectureIsNotCreated () throws Exception {
-        var lectureId = UUID.randomUUID ().toString ();
+        var lectureId = UUID.randomUUID ();
 
 
         when(lectureService.addLecture ( any ( Lecture.class) )).thenReturn ( lectureId );
@@ -152,7 +152,7 @@ class LectureControllerMvcTest {
 
     @Test
     void IfCreateLectureWithInvalidDateThenLectureIsNotCreated () throws Exception {
-        var lectureId = UUID.randomUUID ().toString ();
+        var lectureId = UUID.randomUUID ();
 
 
         when(lectureService.addLecture ( any ( Lecture.class) )).thenReturn ( lectureId );
@@ -182,7 +182,7 @@ class LectureControllerMvcTest {
 
     @Test
     void IfCreateLectureWithInvalidRoomThenLectureIsNotCreated () throws Exception {
-        var lectureId = UUID.randomUUID ().toString ();
+        var lectureId = UUID.randomUUID ();
 
 
         when(lectureService.addLecture ( any ( Lecture.class) )).thenReturn ( lectureId );
@@ -242,7 +242,7 @@ class LectureControllerMvcTest {
         lecture.setRoom("25");
         lecture.setLectorName("Inna");
         lecture.setDateTime( LocalDateTime.of(2024,9,10,12,30));
-        lecture.setId ( UUID.randomUUID ().toString () );
+        lecture.setId ( UUID.randomUUID () );
 
         List<Lecture> expectedLectures = new ArrayList<> ();
         expectedLectures.add ( lecture );
@@ -267,7 +267,7 @@ class LectureControllerMvcTest {
 
     @Test
     void ifPutLectureThenNewLectureReplaceOldLecture () throws Exception {
-        var id = UUID.randomUUID ().toString ();
+        var id = UUID.randomUUID ();
         Lecture lecture = new Lecture();
         lecture.setName("Algebra");
         lecture.setRoom("12");
@@ -303,7 +303,7 @@ class LectureControllerMvcTest {
 
     @Test
     void ifPutLectureOnInvalidPathThenNewThrowLectureNotFoundException () throws Exception {
-        var id = UUID.randomUUID ().toString ();
+        var id = UUID.randomUUID ();
         Lecture lecture = new Lecture();
         lecture.setName("Algebra");
         lecture.setRoom("12");
@@ -313,7 +313,8 @@ class LectureControllerMvcTest {
 
 
 
-        doThrow (new LectureNotFoundException ( "LECTURE WITH THIS ID "+ id +" NOT FOUND" ) ).when(lectureService).updateLecture ( lecture, id);
+        doThrow (new LectureNotFoundException ( "LECTURE WITH THIS ID "+ id +" NOT FOUND" ) )
+                .when(lectureService).updateLecture ( lecture, id);
 
         mockMvc.perform ( put ( "/lectures/{id}" ,id  )
                         .contentType ( MediaType.APPLICATION_JSON )

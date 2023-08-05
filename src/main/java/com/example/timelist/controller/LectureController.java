@@ -16,7 +16,7 @@ public class LectureController {
 
     @PostMapping("/lectures")
     public CreatedResponseLecture create(@RequestBody @Valid Lecture lecture) {
-        String lectureId = lectureService.addLecture(lecture);
+        UUID lectureId = lectureService.addLecture(lecture);
         return CreatedResponseLecture
                 .builder()
                 .lectureId ( lectureId )
@@ -29,7 +29,7 @@ public class LectureController {
     }
 
     @PutMapping("/lectures/{id}")
-    public void update(@RequestBody @Valid Lecture lecture, @PathVariable("id") String lectureId){
+    public void update(@RequestBody @Valid Lecture lecture, @PathVariable("id") UUID lectureId){
        lectureService.updateLecture(lecture, lectureId);
     }
     @DeleteMapping("/lectures/{id}")

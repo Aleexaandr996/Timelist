@@ -42,7 +42,7 @@ class GroupControllerMvcTest {
 
     Group group = new Group ();
     group.setName ( "MK-21" );
-    group.setGroupId ( UUID.randomUUID ().toString () );
+    group.setGroupId ( UUID.randomUUID () );
     List<Group> expectedGroups = new ArrayList<> ();
     expectedGroups.add ( group );
 
@@ -61,7 +61,7 @@ class GroupControllerMvcTest {
 
   @Test
   void ifCreateGroupThenGroupCreated () throws Exception {
-    var groupId = UUID.randomUUID ().toString ();
+    var groupId = UUID.randomUUID ();
     when ( groupService.addGroup ( any ( Group.class ) ) ).thenReturn ( groupId );
 
     mockMvc.perform ( MockMvcRequestBuilders.post ( "/groups" )
@@ -101,7 +101,7 @@ class GroupControllerMvcTest {
 
   @Test
   void ifCreateGroupWithNotValidNameThenGroupIsNotCreated () throws Exception {
-    var groupId = UUID.randomUUID ().toString ();
+    var groupId = UUID.randomUUID ();
     when ( groupService.addGroup ( any ( Group.class ) ) ).thenReturn ( groupId );
 
     mockMvc.perform ( MockMvcRequestBuilders.post ( "/groups" )
@@ -124,7 +124,7 @@ class GroupControllerMvcTest {
 
   @Test
   void ifPutGroupThenNewGroupReplaceOldGroup () throws Exception {
-    var groupId =  UUID.randomUUID ().toString ();
+    var groupId =  UUID.randomUUID ();
     Group group = new Group ();
     group.setName ( "MK-22" );
     group.setStudentIds ( List.of ("12", "34") );
@@ -149,7 +149,7 @@ class GroupControllerMvcTest {
   void ifPutGroupOnInvalidPathThenThrowNotFoundException () throws Exception {
     Group group = new Group ();
     group.setName ( "MK-22" );
-    group.setGroupId ( UUID.randomUUID ().toString () );
+    group.setGroupId ( UUID.randomUUID () );
     group.setStudentIds ( List.of ("12", "34") );
 
     doThrow (new GroupNotFoundException ("GROUP NOT FOUND") ).when ( groupService)

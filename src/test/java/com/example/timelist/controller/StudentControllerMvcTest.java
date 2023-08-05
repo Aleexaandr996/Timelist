@@ -36,7 +36,7 @@ class StudentControllerMvcTest {
 
     @Test
     void IfCreateStudentThenStudentIsCreated () throws Exception {
-        var studentId = UUID.randomUUID ().toString ();
+        var studentId = UUID.randomUUID ();
 
         when(studentService.addStudent ( any ( Student.class) )).thenReturn ( studentId );
 
@@ -56,7 +56,7 @@ class StudentControllerMvcTest {
 
     @Test
     void IfCreateStudentWithInvalidNameThenStudentIsNotCreated  () throws Exception {
-        var studentId = UUID.randomUUID ().toString ();
+        var studentId = UUID.randomUUID ();
 
         when(studentService.addStudent ( any ( Student.class) )).thenReturn ( studentId );
 
@@ -84,7 +84,7 @@ class StudentControllerMvcTest {
         Student student = new Student ();
         student.setName ( "Fin" );
         student.setAge ( 16 );
-        student.setStudentId (UUID.randomUUID ().toString ());
+        student.setStudentId (UUID.randomUUID ());
 
        when(studentService.addStudent ( student )).
                thenThrow ( new StudentDuplicateException ( "Student with this information already exist" ) );
@@ -105,7 +105,7 @@ class StudentControllerMvcTest {
 
     @Test
     void IfCreateStudentWithInvalidAgeThenStudentIsNotCreated () throws Exception {
-        var studentId = UUID.randomUUID ().toString ();
+        var studentId = UUID.randomUUID ();
 
         when(studentService.addStudent ( any ( Student.class) )).thenReturn ( studentId );
 
@@ -133,7 +133,7 @@ class StudentControllerMvcTest {
         Student student = new Student ();
         student.setName ( "Fin" );
         student.setAge ( 16 );
-        student.setStudentId (UUID.randomUUID ().toString ());
+        student.setStudentId (UUID.randomUUID ());
 
         List<Student> expectedStudents = new ArrayList<> ();
         expectedStudents.add ( student );
@@ -156,7 +156,7 @@ class StudentControllerMvcTest {
         Student student = new Student ();
         student.setName ( "Fin" );
         student.setAge ( 16 );
-        var id = UUID.randomUUID ().toString ();
+        var id = UUID.randomUUID ();
 
         doNothing ().when ( studentService ).updateStudent ( student ,student.getStudentId ());
 

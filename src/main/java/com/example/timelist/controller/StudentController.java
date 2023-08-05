@@ -16,7 +16,7 @@ public class StudentController {
 
     @PostMapping("/students")
     public CreatedResponseStudent create(@RequestBody @Valid Student student){
-       String id = studentService.addStudent(student);
+       UUID id = studentService.addStudent(student);
        return CreatedResponseStudent.builder ().studentId ( id ).build ();
     }
 
@@ -26,7 +26,7 @@ public class StudentController {
     }
 
     @PutMapping("/students/{id}")
-    public void update(@RequestBody @Valid Student student, @PathVariable("id") String studentId){
+    public void update(@RequestBody @Valid Student student, @PathVariable("id") UUID studentId){
         studentService.updateStudent(student, studentId);
     }
     @DeleteMapping("students/{id}")

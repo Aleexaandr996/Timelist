@@ -18,10 +18,10 @@ import java.util.UUID;
 public class LectureService {
     private final  InMemoryStorage storage;
 
-    public String addLecture(Lecture lecture) {
+    public UUID addLecture(Lecture lecture) {
         log.info("Create lecture name={} room={} dateTime={} lector={}", lecture.getName(), lecture.getRoom(),
                 lecture.getDateTime(), lecture.getLectorName());
-                lecture.setId(UUID.randomUUID().toString());
+                lecture.setId(UUID.randomUUID());
         checkRoom(lecture);
         checkDuplicateLecture ( lecture );
         storage.add(lecture);
@@ -32,7 +32,7 @@ public class LectureService {
         return storage.getLectures();
     }
 
-    public void updateLecture (Lecture lecture, String lectureId) {
+    public void updateLecture (Lecture lecture, UUID lectureId) {
         log.info("Update lecture");
         checkRoom(lecture);
         storage.updateLecture(lecture, lectureId);
@@ -53,7 +53,8 @@ public class LectureService {
     }
 
     private static boolean isRoomBooked(Lecture existingLecture, Lecture newLecture) {
-        return Objects.equals(existingLecture.getRoom(), newLecture.getRoom()) && existingLecture.getDateTime().isEqual(newLecture.getDateTime());
+        return Objects.equals(existingLecture.getRoom(), newLecture.getRoom())
+                && existingLecture.getDateTime().isEqual(newLecture.getDateTime());
     }
 
     public void checkDuplicateLecture (Lecture newLecture){
