@@ -108,11 +108,11 @@ class LectureServiceTest {
 
         //        Duplicate Lecture
         Lecture duplicateLecture = new Lecture();
-        lecture.setName("Geography");
-        lecture.setRoom("25");
-        lecture.setLectorName("Leon");
-        lecture.setDateTime(LocalDateTime.of(2024,9,10,12,30));
-        lecture.setId(UUID.randomUUID());
+        duplicateLecture.setName("Geography");
+        duplicateLecture.setRoom("25");
+        duplicateLecture.setLectorName("Leon");
+        duplicateLecture.setDateTime(LocalDateTime.of(2024,9,10,12,30));
+        duplicateLecture.setId(UUID.randomUUID());
 
         //        When
         when(storage.getLectures()).thenReturn(lectures);
