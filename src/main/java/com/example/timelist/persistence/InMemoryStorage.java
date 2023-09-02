@@ -61,7 +61,7 @@ public class InMemoryStorage implements Storage {
                 students.set(i, student);
             }
         }
-        throw new StudentNotFoundException ( "STUDENT NOT FOUND" );
+        throw new StudentNotFoundException ();
     }
 
     public void deleteStudent(UUID studentId) {
