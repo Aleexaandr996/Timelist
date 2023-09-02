@@ -48,7 +48,7 @@ public class GroupService {
                 Group duplicateGr = storage.getGroups().get(i);
                 log.warn("Group with name = [{}] id = [{}] already exist", duplicateGr.getGroupId(),
                         duplicateGr.getName());
-                throw new GroupDuplicateException("GROUP WITH NAME: "+group.getName ()+" ALREADY EXIST");
+                throw new GroupDuplicateException();
             }
         }
     }

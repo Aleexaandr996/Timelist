@@ -48,7 +48,7 @@ public class InMemoryStorage implements Storage {
                 getLectures().add(newLecture);
             }
         }
-        throw new LectureNotFoundException ( "LECTURE WITH THIS ID "+lectureId+"NOT FOUND" );
+        throw new LectureNotFoundException ();
     }
 
     public void deleteLecture(UUID lectureId) {
@@ -75,7 +75,7 @@ public class InMemoryStorage implements Storage {
                 return;
             }
         }
-        throw new GroupNotFoundException("GROUP NOT FOUND");
+        throw new GroupNotFoundException();
     }
 
     public void deleteGroup(UUID groupId) {

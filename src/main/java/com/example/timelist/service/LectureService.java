@@ -47,7 +47,7 @@ public class LectureService {
         log.info("Check Room");
         for (Lecture existingLecture : storage.getLectures()) {
             if (isRoomBooked(existingLecture, lecture)) {
-                throw new LectureRoomException("Room number["+lecture.getRoom()+"] already booked this day, this time");
+                throw new LectureRoomException();
             }
         }
     }
@@ -63,8 +63,7 @@ public class LectureService {
                    newLecture.getName ().equals ( oldLecture.getName () ) &&
                    newLecture.getLectorName ().equals ( oldLecture.getLectorName () ) &&
                    newLecture.getRoom ().equals ( oldLecture.getRoom () )) {
-               throw new LectureDuplicateException
-                       ( "Lecture with name = "+newLecture.getName()+" already exist at this time and this room" );
+               throw new LectureDuplicateException ();
            }
         }
     }

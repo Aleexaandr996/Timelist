@@ -45,9 +45,7 @@ public class StudentService {
     public void checkStudentDuplicateInGroup(Student student, Group group){
         for (String id : group.getStudentIds()){
             if(student.getName().equals(findStudentName(id))){
-                throw new StudentDuplicateInGroupException
-                        ("Student with this name ["+student.getName()+"] in this group["
-                                +group.getName()+"] already exist ");
+                throw new StudentDuplicateInGroupException ();
             };
         }
     }
@@ -60,7 +58,7 @@ public class StudentService {
 
     public void sizeStudentInGroup (Group group){
         if (group.getStudentIds().size() > 20 ){
-            throw new StudentSizeInGroupException("Maximum number students in group - 20 persons");
+            throw new StudentSizeInGroupException();
         }
     }
 
@@ -69,7 +67,7 @@ public class StudentService {
         for (Student value : storage.getStudents()) {
             if (value.getName().equals(student.getName()) &&
                (value.getAge() == (student.getAge()))) {
-                throw new StudentDuplicateException("Student with name = "+student.getName()+" already exist ");
+                throw new StudentDuplicateException();
             }
         }
     }
