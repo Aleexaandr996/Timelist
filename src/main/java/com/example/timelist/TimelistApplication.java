@@ -9,5 +9,4 @@ public class TimelistApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(TimelistApplication.class, args);
 	}
-
 }
