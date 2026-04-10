@@ -1,0 +1,31 @@
+package com.example.timelist.beans;
+
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
+import javax.validation.constraints.*;
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.UUID;
+
+@Getter
+@Setter
+@ToString
+@EqualsAndHashCode
+public class   Lecture {
+    private UUID id;
+    @NotBlank
+    @Size(min = 1, max = 25)
+    private String name;
+
+    private List<String> groupIds;
+    @NotBlank
+    @Size(min = 1, max = 15)
+    private String lectorName;
+    @Pattern(regexp = "\\d{1,3}")
+    private String room;
+    @Future
+    private LocalDateTime dateTime;
+}

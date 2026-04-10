@@ -1,0 +1,70 @@
+package com.example.timelist.service;
+
+import com.example.timelist.beans.Lecture;
+import com.example.timelist.error.LectureDuplicateException;
+import com.example.timelist.error.LectureRoomException;
+import com.example.timelist.persistence.InMemoryStorage;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Objects;
+import java.util.UUID;
+
+@Slf4j
+@Service
+@RequiredArgsConstructor
+public class LectureService {
+    private final  InMemoryStorage storage;
+
+    public UUID addLecture(Lecture lecture) {
+        log.info("Create lecture name={} room={} dateTime={} lector={}", lecture.getName(), lecture.getRoom(),
+                lecture.getDateTime(), lecture.getLectorName());
+                lecture.setId(UUID.randomUUID());
+        checkRoom(lecture);
+        checkDuplicateLecture ( lecture );
+        storage.add(lecture);
+        return lecture.getId ();
+    }
+
+    public List<Lecture> getLectures(){
+        return storage.getLectures();
+    }
+
+    public void updateLecture (Lecture lecture, UUID lectureId) {
+        log.info("Update lecture");
+        checkRoom(lecture);
+        storage.updateLecture(lecture, lectureId);
+    }
+
+    public void  deleteLecture (UUID lectureId) {
+        log.info("Delete lecture  id={}", lectureId);
+        storage.deleteLecture(lectureId);
+    }
+
+    public void checkRoom (Lecture lecture){
+        log.info("Check Room");
+        for (Lecture existingLecture : storage.getLectures()) {
+            if (isRoomBooked(existingLecture, lecture)) {
+                throw new LectureRoomException();
+            }
+        }
+    }
+
+    private static boolean isRoomBooked(Lecture existingLecture, Lecture newLecture) {
+        return Objects.equals(existingLecture.getRoom(), newLecture.getRoom())
+                && existingLecture.getDateTime().isEqual(newLecture.getDateTime());
+    }
+
+    public void checkDuplicateLecture (Lecture newLecture){
+        for (Lecture oldLecture : storage.getLectures ()){
+           if(newLecture.getDateTime ().isEqual ( oldLecture.getDateTime () ) &&
+                   newLecture.getName ().equals ( oldLecture.getName () ) &&
+                   newLecture.getLectorName ().equals ( oldLecture.getLectorName () ) &&
+                   newLecture.getRoom ().equals ( oldLecture.getRoom () )) {
+               throw new LectureDuplicateException ();
+           }
+        }
+    }
+}
